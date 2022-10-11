@@ -5,6 +5,8 @@ import { logger } from './middlewares/logger.js'
 const app = express()
 const PORT = 3000
 
+app.set('view engine', 'ejs')
+
 const planets = ['Mars', 'Pluto', 'Venus']
 
 const cookies = [
