@@ -72,6 +72,16 @@ app.get('/contact', (request, response) => {
   `)
 })
 
+app.get('/cookies/:slug', (request, response) => {
+  const slug = request.params.slug
+
+  response.send(`
+  <h1>Your requested cookie is:</h1>
+  <p>${slug}</p><br />
+  <p>This page did not check if your requested cookie matched the cookie list. To do that, you can use the API route instead. Paste this as the URL, but replace 'slug' with your requested cookie: http://localhost:3000/api/v1/cookies/slug</p>
+  `)
+})
+
 app.get('/cookies', (request,response) => {
   console.log(request.query)
 
@@ -152,7 +162,9 @@ app.get('/api/v1/cookies/:slug', (request, response) => {
     }
   })
 
-  response.send("That cookie is not in our list.")
+  response
+    .status(404)
+    .send("404 Error: That cookie is not in our list.")
 })
 
 
