@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, intial-scale=1.0">
-    <title>Cookieshop</title>
-</head>
+<%- include('includes/head') %>
+
 <body>
     <header>
+        <%- include('includes/test-title') %>
+
         <h1>Cookieshop</h1>
 
         <nav>
@@ -22,8 +21,12 @@
         <p>
             Welcome to the Cookie shop.
         </p>
+
         <p>
-            We currently have 99 cookies in stock.
+            We currently have <%= numberOfCookiesInStock %> cookies in stock.
+        </p>
+        <p>
+            We have sold <%= numberOfCookiesSold %> cookies.
         </p>
     </main>
 

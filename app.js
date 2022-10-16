@@ -22,33 +22,64 @@ const cookies = [
 
 app.use(logger)
 
+// this would keep things simpler, no need to rename everything '/assets':
+// app.use(express.static('public'));
 app.use('/assets', express.static('public'))
+
 
 app.use(express.urlencoded({ extended: true }))
 
-// this would keep things simpler, no need to rename everything '/assets':
-// app.use(express.static('public'));
+app.use(express.json())
+
 
 app.listen(PORT, () => {
   console.log("The server has started running.")
 })
 
 
-// app.get('/', (request, response) => {
-//   response.send("This is a test")
-// })
 
+// ======================== gets
 
 app.get('/', (request, response) => {
-  response.send(cookies)
+  const numberOfCookiesInStock = 40
+
+  response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
+  nameOfPage: "Cookieshop",
+  numberOfCookiesSold: 267
+})
 
   // old:
-  // response.send(planets)
+  // response.send(cookies)
 
 })
 
+app.get('/cookies', (request,response) => {
 
-// ======================== gets
+  response.render('cookies/index')
+
+  
+  // old:
+  // console.log(request.query)
+
+  // older version without template literal format
+  // response.send('<h1>Cookies</h1><p>Here, you will find all the cookies!</p>')
+
+
+  // the oldest version:
+  // response.send('Here you soon find all my cookies!')
+})
+
+app.get('/template-literal-HTML-example', (request,response) => {
+  response.send(`
+      <h1>Cookies</h1>
+      <p>Here, you will find the names of all the cookies!</p>
+      <ul>
+        <li>${cookies[0].name}</li>
+        <li>${cookies[1].name}</li>
+      </ul>
+    `
+    )
+  })
 
 app.get('/planets/:slug', (request, response) => {
   const planetId = request.params.slug
@@ -80,39 +111,19 @@ app.get('/cookies/:slug', (request, response) => {
   response.send(`
   <h1>Your requested cookie is:</h1>
   <p>${slug}</p><br />
-  <p>This page did not check if your requested cookie matched the cookie list. To do that, you can use the API route instead. Paste this as the URL, but replace 'slug' with your requested cookie: http://localhost:3000/api/v1/cookies/slug</p>
+  <p>This page does not check if your requested cookie matched the cookie list. To do that, you can use the API route instead. Paste this as the URL, but replace 'slug' with your requested cookie: http://localhost:3000/api/v1/cookies/slug</p>
   `)
 })
 
-app.get('/cookies', (request,response) => {
-  console.log(request.query)
 
-  response.send(`
-    <h1>Cookies</h1>
-    <p>Here, you will find the names of all the cookies!</p>
-    <ul>
-      <li>${cookies[0].name}</li>
-      <li>${cookies[1].name}</li>
-    </ul>
-  `)
-
-  // old version without template literal format
-  // response.send('<h1>Cookies</h1><p>Here, you will find all the cookies!</p>')
-
-  // an old version, with a status code:
-  // response
-  //   .status(200)
-  //   .send('Here you find all the cookies.')
-
-  // the oldest version:
-  // response.send('Here you soon find all my cookies!')
-})
 
 app.get('/search', (request, response) => {
-  const queryString = request.queryString 
-  // the above could also say request.query, and then the request would look like an object, not like a string
+  const queryString = request.query 
+  // the above could also say request.queryString, and then the request would look like a string, not like an object
 
-  response.send('You searched for: ' + queryString)
+  console.log(request.query)
+
+  response.json({'You searched for ':  queryString})
 })
 
 
@@ -126,8 +137,9 @@ app.post('/contact', (request, response) => {
 
 app.post('/add-cookies', (request, response) => {
   console.log("Cookie form submission: ", request.body)
-  response.send('Thank you for your submission. It is copied below:', '\n', request.body)
-  // I could not get the above to work with sending the request.body. it would throw an error
+  response
+    .status(200)
+    .json({"Thank you for your cookie submission. It is copied here": request.body})
 })
 
 
@@ -135,14 +147,6 @@ app.post('/add-cookies', (request, response) => {
 
 app.get('/api/v1/cookies', (request, response) => {
   response.json(cookies)
-
-  // old way:
-  // response.json({
-  //   cookies: [
-  //     { name: 'Chocolate Chip', price: 3.50 },
-  //     { name: 'Banana', price: 3.00 }
-  //   ]
-  // })
 })
 
 app.get('/api/v1/cookies/:slug', (request, response) => {
