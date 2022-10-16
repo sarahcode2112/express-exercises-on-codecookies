@@ -55,7 +55,7 @@ app.get('/', (request, response) => {
 
 app.get('/cookies', (request,response) => {
 
-  response.render('cookies/index')
+  response.render('cookies/cookies')
 
   
   // old:
