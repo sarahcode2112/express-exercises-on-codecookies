@@ -4,17 +4,7 @@
 <%- include('includes/head', {title: 'Home | Cookieshop'}) %>
 
 <body>
-    <header>
-
-        <h1>Cookieshop</h1>
-
-        <nav>
-            <a href="/">Home</a>&nbsp;|&nbsp;
-            <a href="/about">About</a>&nbsp;|&nbsp;
-            <a href="/cookies">Shop</a>&nbsp;|&nbsp;
-            <a href="/contact">Contact</a>
-        </nav>
-    </header>
+    <%- include('includes/header') %>
 
     <main>
         <p>
@@ -29,9 +19,8 @@
         </p>
     </main>
 
-    <footer>
-        Thank you to Codecookies for the tutorial for how to make this site.
-    </footer>
+    <%- include('includes/footer') %>
+    
 </body>
 
 </html>

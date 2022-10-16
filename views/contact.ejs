@@ -1,10 +1,12 @@
 <html>
     <head>
         <title>Contact</title>
-        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="assets/css/styles.css" type="text/css">
     </head>
     <body>
-        <h1>Contact</h1>
+        <%- include('includes/header') %>
+
+        <h2>Contact</h2>
 
         <form action="/contact" method="POST">
             <input type="text" name="name" placeholder="name" /><br />
@@ -13,5 +15,6 @@
       
             <button>Send</button>
         </form>
+        <%- include('includes/footer') %>
     </body>
 </html>

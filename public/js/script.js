@@ -1,1 +1,1 @@
-console.log("this is working")
+console.log("this script tag in the head is working")

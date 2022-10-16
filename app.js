@@ -9,12 +9,14 @@ app.set('view engine', 'ejs')
 
 const planets = ['Mars', 'Pluto', 'Venus']
 
+const numberOfCookiesSold = 268
+
 const cookies = [
-  { "slug": 'Chocolate Chip',
+  { "slug": 'chocolate-chip',
   "name": 'Chocolate Chip',
   "description": 'Chocolatey', 
   "price": 3.50 },
-  { "slug": 'Banana',
+  { "slug": 'banana',
   "name": 'Banana',
   "description": 'Tastes like bananas', 
   "price": 3.00 }
@@ -48,82 +50,42 @@ app.get('/', (request, response) => {
   numberOfCookiesSold: 267
 })
 
-  // old:
-  // response.send(cookies)
-
 })
 
 app.get('/cookies', (request,response) => {
 
-  response.render('cookies/cookies')
-
-  
-  // old:
-  // console.log(request.query)
-
-  // older version without template literal format
-  // response.send('<h1>Cookies</h1><p>Here, you will find all the cookies!</p>')
-
-
-  // the oldest version:
-  // response.send('Here you soon find all my cookies!')
-})
-
-app.get('/template-literal-HTML-example', (request,response) => {
-  response.send(`
-      <h1>Cookies</h1>
-      <p>Here, you will find the names of all the cookies!</p>
-      <ul>
-        <li>${cookies[0].name}</li>
-        <li>${cookies[1].name}</li>
-      </ul>
-    `
-    )
-  })
-
-app.get('/planets/:slug', (request, response) => {
-  const planetId = request.params.slug
-
-  if (planets.includes(planetId)) {
-    response.send("The planet selected is " + planetId)
-  } else {
-    response.send("That is not a planet in the list.")
-  }
-})
-
-app.get('/about', (request, response) => {
-  response.send(`
-  <h1>About</h1>
-  <p>Here you find the About page.</p>
-  `)
-})
-
-app.get('/contact', (request, response) => {
-  response.send(`
-  <h1>Contact</h1>
-  <p>Here you find the Contact page.</p>
-  `)
+  response.render('cookies/index')
 })
 
 app.get('/cookies/:slug', (request, response) => {
   const slug = request.params.slug
 
-  response.send(`
-  <h1>Your requested cookie is:</h1>
-  <p>${slug}</p><br />
-  <p>This page does not check if your requested cookie matched the cookie list. To do that, you can use the API route instead. Paste this as the URL, but replace 'slug' with your requested cookie: http://localhost:3000/api/v1/cookies/slug</p>
-  `)
+  cookies.forEach((element) => 
+  
+  {
+  
+    if (element.slug === slug) {
+    response.render('cookies/show', {requestedCookie: element.name,
+    description: element.description,
+    price: element.price})
+  }
+}
+  
+)
+
+response
+    .status(404)
+    .send("404 Error: Our database does not include that cookie.")
 })
 
 
+app.get('/about', (request, response) => {
+  response.render('about', {numberOfCookiesSold: numberOfCookiesSold})
+})
 
-app.get('/search', (request, response) => {
-  const queryString = request.query 
-  // the above could also say request.queryString, and then the request would look like a string, not like an object
-
-  console.log(request.query)
-
-  response.json({'You searched for ':  queryString})
+app.get('/contact', (request, response) => {
+  
+  response.render('contact')
 })
 
 
@@ -163,8 +125,7 @@ app.get('/api/v1/cookies/:slug', (request, response) => {
     if (element.slug === cookieId) {
       response.json(element)
 
-    // another old way I did first:
-    // response.send("The cookie selected is " + cookieId)
+    
     }
   })
 
