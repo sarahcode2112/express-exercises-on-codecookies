@@ -2,8 +2,8 @@
 
 <h3> <%= requestedCookie %> </h3>
 
-<%= description %>
-<br />
-<p> Price: <%= price %> </p>
+<p> Description: <%= description %> </p>
+
+<p> Price: <%= readablePrice(price) %> </p>
 
 <%- include('../includes/footer') %>

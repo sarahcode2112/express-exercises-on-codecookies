@@ -7,6 +7,15 @@
   <%- include('../includes/header') %>
 
   <main>
+    <% cookies.forEach(cookie => { %>
+      <li>
+        <a href="/cookies/<%= cookie.slug %>"> 
+          <%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %>
+        </a>
+        <% if(!cookie.isInStock) { %> [SOLD OUT] <% } %>
+      </li>
+    <% }) %>
+
     <p>Our current offerings:</p>
     <ul>
       <li><a href="/cookies/chocolate-chip">Chocolate Chip</a></li>

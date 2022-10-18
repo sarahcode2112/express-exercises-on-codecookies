@@ -1,25 +1,47 @@
 import express from 'express'
+import mongoose from 'mongoose'
 
 import { logger } from './middlewares/logger.js'
+
+import { readablePrice } from './helpers/cookie-views.js'
 
 const app = express()
 const PORT = 3000
 
+mongoose.connect('mongodb://127.0.0.1:27017/cookieshop')
+  .then(() => console.log('💽 Database connected'))
+  .catch(error => console.error(error))
+
 app.set('view engine', 'ejs')
 
-const planets = ['Mars', 'Pluto', 'Venus']
+const cookieSchema = new mongoose.Schema({
+  slug: { type: String, unique: true, required: true},
+  name: { type: String, required: true },
+  priceInCents: { type: Number, required: true },
+  isInStock: { type: Boolean, default: true, required: true }
+})
+
+const Cookie = mongoose.model('Cookie', cookieSchema)
+
+const newsItemSchema = new mongoose.Schema({
+  title: { type: String, unique: true, required: true },
+  content: { type: String, required: true },
+  date: { type: Number, required: true }
+})
+
+const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 
 const numberOfCookiesSold = 268
 
 const cookies = [
   { "slug": 'chocolate-chip',
   "name": 'Chocolate Chip',
-  "description": 'Chocolatey', 
-  "price": 3.50 },
+  "description": 'Chocolatey',
+  "priceInCents": 350, isInStock: true },
   { "slug": 'banana',
   "name": 'Banana',
   "description": 'Tastes like bananas', 
-  "price": 3.00 }
+  "priceInCents": 300, isInStock: false }
 ]
 
 app.use(logger)
@@ -54,7 +76,10 @@ app.get('/', (request, response) => {
 
 app.get('/cookies', (request,response) => {
 
-  response.render('cookies/index')
+  response.render('cookies/index', { 
+    cookies: cookies,
+    readablePrice: readablePrice
+  })
 })
 
 app.get('/cookies/:slug', (request, response) => {
@@ -67,7 +92,8 @@ app.get('/cookies/:slug', (request, response) => {
     if (element.slug === slug) {
     response.render('cookies/show', {requestedCookie: element.name,
     description: element.description,
-    price: element.price})
+    price: element.priceInCents,
+    readablePrice: readablePrice})
   }
 }
   
