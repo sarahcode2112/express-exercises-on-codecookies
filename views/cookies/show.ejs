@@ -1,9 +1,17 @@
-<%- include('../includes/header') %>
+<body>
 
-<h3> <%= requestedCookie %> </h3>
+  <%- include('../includes/header') %>
 
-<p> Description: <%= description %> </p>
+  <main>
 
-<p> Price: <%= readablePrice(price) %> </p>
+    <h3> <%= cookie.name %> </h3>
 
-<%- include('../includes/footer') %>
+    <p> Description: <%= cookie.description %> </p>
+
+    <p> Price: <%= readablePrice(cookie.priceInCents) %> </p>
+
+    <%- include('../includes/footer') %>
+
+  </main>
+
+</body>

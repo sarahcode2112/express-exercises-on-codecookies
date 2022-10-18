@@ -34,16 +34,7 @@ const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 
 const numberOfCookiesSold = 268
 
-const cookies = [
-  { "slug": 'chocolate-chip',
-  "name": 'Chocolate Chip',
-  "description": 'Chocolatey',
-  "priceInCents": 350, isInStock: true },
-  { "slug": 'banana',
-  "name": 'Banana',
-  "description": 'Tastes like bananas', 
-  "priceInCents": 300, isInStock: false }
-]
+
 
 app.use(logger)
 
@@ -75,12 +66,21 @@ app.get('/', (request, response) => {
 
 })
 
-app.get('/cookies', (request,response) => {
+app.get('/cookies', async (request,response) => {
+  try{
+    const cookies = await Cookie.find({}).exec()
 
-  response.render('cookies/index', { 
-    cookies: cookies,
-    readablePrice: readablePrice
-  })
+    response.render('cookies/index', { 
+      cookies: cookies,
+      readablePrice: readablePrice
+    })
+  }catch(error) {
+    console.error(error)
+    response.render('cookies/index', {
+      cookies: [],
+      readablePrice: readablePrice
+    })
+  }
 })
 
 app.get('/cookies/new', (request, response) => {
@@ -91,26 +91,21 @@ app.get('/news/new', (request, response) => {
   response.render('news')
 })
 
-app.get('/cookies/:slug', (request, response) => {
+app.get('/cookies/:slug', async (request, response) => {
+  try {
   const slug = request.params.slug
+  const cookie = await Cookie.findOne({ slug: slug }).exec()
+  if(!cookie) throw new Error('Cookie not found')
 
-  cookies.forEach((element) => 
-  
-  {
-  
-    if (element.slug === slug) {
-    response.render('cookies/show', {requestedCookie: element.name,
-    description: element.description,
-    price: element.priceInCents,
-    readablePrice: readablePrice})
-  }
+  response.render('cookies/show', {
+    cookie: cookie,
+    readablePrice: readablePrice
+  })
+
+}catch(error) {
+  console.error(error)
+  response.status(404).send('Could not find the cookie you\'re looking for.')
 }
-  
-)
-
-response
-    .status(404)
-    .send("404 Error: Our database does not include that cookie.")
 })
 
 

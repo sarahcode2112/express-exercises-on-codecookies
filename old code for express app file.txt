@@ -20,3 +20,17 @@ app.get('/search', (request, response) => {
 
   response.json({'You searched for ':  queryString})
 })
+
+
+
+
+const cookies = [
+  { "slug": 'chocolate-chip',
+  "name": 'Chocolate Chip',
+  "description": 'Chocolatey',
+  "priceInCents": 350, isInStock: true },
+  { "slug": 'banana',
+  "name": 'Banana',
+  "description": 'Tastes like bananas', 
+  "priceInCents": 300, isInStock: false }
+]
