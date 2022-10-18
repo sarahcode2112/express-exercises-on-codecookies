@@ -7,19 +7,17 @@
   <%- include('../includes/header') %>
 
   <main>
-    <% cookies.forEach(cookie => { %>
-      <li>
-        <a href="/cookies/<%= cookie.slug %>"> 
-          <%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %>
-        </a>
-        <% if(!cookie.isInStock) { %> [SOLD OUT] <% } %>
-      </li>
-    <% }) %>
-
     <p>Our current offerings:</p>
     <ul>
-      <li><a href="/cookies/chocolate-chip">Chocolate Chip</a></li>
-      <li><a href="/cookies/banana">Banana</a></li>
+      <% cookies.forEach(cookie => { %>
+        <li>
+          <% if(cookie.isInStock) { %> 
+            <a href="/cookies/<%= cookie.slug %>"><%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %></a>
+          <% } else { %>
+            <%= cookie.name %> [SOLD OUT] 
+          <% } %>
+        </li>
+      <% }) %>
     </ul>
   </main>
 

@@ -24,7 +24,8 @@ const cookieSchema = new mongoose.Schema({
 const Cookie = mongoose.model('Cookie', cookieSchema)
 
 const newsItemSchema = new mongoose.Schema({
-  title: { type: String, unique: true, required: true },
+  // I don't know if my 'untitled' thing works as envisioned, but I wanted to try it:
+  title: { type: String, default: 'Untitled',unique: true, required: true },
   content: { type: String, required: true },
   date: { type: Number, required: true }
 })
@@ -82,6 +83,14 @@ app.get('/cookies', (request,response) => {
   })
 })
 
+app.get('/cookies/new', (request, response) => {
+  response.render('cookies/new')
+})
+
+app.get('/news/new', (request, response) => {
+  response.render('news')
+})
+
 app.get('/cookies/:slug', (request, response) => {
   const slug = request.params.slug
 
@@ -115,6 +124,8 @@ app.get('/contact', (request, response) => {
 })
 
 
+
+
 // ======================== posts
 
 app.post('/contact', (request, response) => {
@@ -122,6 +133,37 @@ app.post('/contact', (request, response) => {
   response.send('Thank you for your message. We will be in touch soon.')
 })
 
+app.post('/cookies', async (request, response) => {
+  try{
+    const cookie = new Cookie({
+      slug: request.body.slug,
+      name: request.body.name,
+      priceInCents: request.body.priceInCents
+    })
+    await cookie.save()
+
+    response.send('Cookie Created')
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The cookie could not be created.')
+  }
+})
+
+app.post('/news', async (request, response) => {
+  try{
+    const newsItem = new NewsItem({
+      title: request.body.title,
+      content: request.body.content,
+      date: request.body.date
+    })
+    await newsItem.save()
+
+    response.send('News Item Created')
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The news item could not be created.')
+  }
+})
 
 app.post('/add-cookies', (request, response) => {
   console.log("Cookie form submission: ", request.body)

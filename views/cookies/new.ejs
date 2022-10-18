@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../includes/head', {title: "New Cookie | Cookieshop"}) %>
+<body>
+    <%- include('../includes/header') %>
+
+    <main>
+        <h2>Create a new cookie</h2>
+
+        <form action="/cookies" method="POST">
+            <input type="text" name="name" placeholder="name" required /><br />
+            <input type="text" name="slug" placeholder="slug" required /><br />
+            <input type="number" name="priceInCents" placeholder="price in cents" required min="0" step="1" /><br />
+            <button>Save</button>
+        </form>
+    </main>
+
+    <%- include('../includes/footer') %>
+</body>
+</html>
