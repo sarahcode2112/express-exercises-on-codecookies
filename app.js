@@ -66,6 +66,21 @@ app.get('/', (request, response) => {
 
 })
 
+app.get('/news', async (request, response) => {
+  try{
+    const news = await NewsItem.find({}).exec()
+
+    response.render('news/index', {
+      news: news
+    })
+  }catch(error) {
+    console.error(error)
+    response.render('news/index', {
+      news: []
+    })
+  }
+})
+
 app.get('/cookies', async (request,response) => {
   try{
     const cookies = await Cookie.find({}).exec()
@@ -88,7 +103,7 @@ app.get('/cookies/new', (request, response) => {
 })
 
 app.get('/news/new', (request, response) => {
-  response.render('news')
+  response.render('news/new')
 })
 
 app.get('/cookies/:slug', async (request, response) => {
