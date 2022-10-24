@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import mongoose from 'mongoose'
 
@@ -5,14 +6,24 @@ import { logger } from './middlewares/logger.js'
 
 import { readablePrice } from './helpers/cookie-views.js'
 
-const app = express()
-const PORT = 3000
+import { User } from './models/user.js'
 
-mongoose.connect('mongodb://127.0.0.1:27017/cookieshop')
+const app = express()
+
+
+
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('💽 Database connected'))
   .catch(error => console.error(error))
 
 app.set('view engine', 'ejs')
+
+// defines a router for dealing with users. Thanks to the FullStackOpen tutorial
+import { usersRouter } from './controllers/users.js'
+
+
+
+
 
 const cookieSchema = new mongoose.Schema({
   slug: { type: String, unique: true, required: true},
@@ -47,14 +58,23 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
 
+app.use('/api/users', usersRouter)
 
-app.listen(PORT, () => {
-  console.log("The server has started running.")
+
+
+
+app.listen(process.env.PORT, () => {
+  console.log(`The server has started running on port ${process.env.PORT}`)
 })
 
 
 
 // ======================== gets
+
+usersRouter.get('/', async (request, response) => {
+  const users = await User.find({})
+  response.json(users)
+})
 
 app.get('/', (request, response) => {
   const numberOfCookiesInStock = 40
@@ -144,6 +164,7 @@ app.post('/contact', (request, response) => {
 })
 
 app.post('/cookies', async (request, response) => {
+  console.log(JSON.stringify(request.body))
   try{
     const cookie = new Cookie({
       slug: request.body.slug,

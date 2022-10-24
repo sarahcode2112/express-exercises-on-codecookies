@@ -1,1 +1,4 @@
 node_modules
+
+# this is important because the environment variables in app.yaml must be secret, for security:
+app.yaml
