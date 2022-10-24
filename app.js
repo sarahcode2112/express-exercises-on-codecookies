@@ -10,6 +10,8 @@ import { User } from './models/user.js'
 
 const app = express()
 
+import { loginRouter } from './controllers/login.js'
+// const loginRouter = require('.controllers/login')
 
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -47,6 +49,7 @@ const numberOfCookiesSold = 268
 
 
 
+
 app.use(logger)
 
 // this would keep things simpler, no need to rename everything '/assets':
@@ -58,8 +61,11 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
 
+
+// i had to do lots of troubleshooting until I realized that these two app.use('/api...) things have to come after all other app.use things. Especially the express.urlencoded thing
 app.use('/api/users', usersRouter)
 
+app.use('/api/login', loginRouter)
 
 
 
