@@ -1,5 +1,9 @@
 import 'dotenv/config'
 import express from 'express'
+const app = express()
+
+import jwt from 'jsonwebtoken'
+
 import mongoose from 'mongoose'
 
 import { logger } from './middlewares/logger.js'
@@ -8,10 +12,14 @@ import { readablePrice } from './helpers/cookie-views.js'
 
 import { User } from './models/user.js'
 
-const app = express()
+
 
 import { loginRouter } from './controllers/login.js'
 // const loginRouter = require('.controllers/login')
+
+// defines a router for dealing with users. Thanks to the FullStackOpen tutorial
+import { usersRouter } from './controllers/users.js'
+
 
 
 mongoose.connect(process.env.MONGODB_URI)
@@ -20,12 +28,15 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.set('view engine', 'ejs')
 
-// defines a router for dealing with users. Thanks to the FullStackOpen tutorial
-import { usersRouter } from './controllers/users.js'
 
-
-
-
+// this is from the fullstackopen tutoria. I could still understand it better:
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
 
 const cookieSchema = new mongoose.Schema({
   slug: { type: String, unique: true, required: true},
@@ -76,6 +87,21 @@ app.listen(process.env.PORT, () => {
 
 
 // ======================== gets
+
+app.get('/secret', async (request, response) => {
+  const token = getTokenFrom(request)
+  
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+
+
+
+
+  response.json("this page is only visible to logged-in users")
+})
 
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({})

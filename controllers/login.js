@@ -34,7 +34,9 @@ loginRouter.post('/', async (request, response) => {
 
   response
     .status(200)
-    .send({ token, username: user.username, name: user.name })
+    .send({ "you logged in successfully": "congratulations, only logged-in users can see this.", token, username: user.username, name: user.name })
+    // eventually I would like this below to work, but for now, I am getting a "return done(new JsonWebTokenError('jwt must be provided'));" error
+    // .redirect('/secret')
 })
 
 // module.exports = loginRouter
