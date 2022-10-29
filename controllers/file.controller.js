@@ -31,6 +31,7 @@ const upload = async (request, response) => {
         })
 
 
+        
         const blob = bucket.file('deleteable/' + request.file.originalname)
         const blobStream = blob.createWriteStream({ 
             resumable: false
