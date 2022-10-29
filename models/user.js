@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     ]
 })
 
-// i honestly don't know what this does, i just copied it from the fullstackopen tutorial. 
+// i honestly don't know what this does, i just copied it from the fullstackopen tutorial. I am yet to understand it better. 
 userSchema.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
