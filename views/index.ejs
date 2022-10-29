@@ -8,6 +8,12 @@
 
     <main>
         <p>
+            Some routes that work as POST requests: /api/users, /api/login
+        </p>
+        <p>
+            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the right token attached to the request: /secret. (But I am still working on getting that token-attached request to work in the UI, outside of something like Postman.)
+        </p>
+        <p>
             Welcome to the Cookie shop.
         </p>
 
@@ -17,7 +23,7 @@
         <p>
             We have sold <%= numberOfCookiesSold %> cookies.
         </p>
-    </main>
+    
 
     <br />
     <p>Login form:</p>
@@ -27,8 +33,18 @@
         <button>Send</button>
     </form>
 
+    <br />
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <!-- <input name="name" type="text" placeholder="File name" /> -->
+        <input type="file" name="file" placeholder="File to upload" />
+        <input type="submit">
+    </form>
+
+    </main>
+
     <%- include('includes/footer') %>
-    
+
 </body>
 
 </html>

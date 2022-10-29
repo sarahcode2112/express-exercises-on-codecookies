@@ -1,6 +1,16 @@
 import 'dotenv/config'
 import express from 'express'
+import fileUpload from 'express-fileupload'
+
 const app = express()
+
+
+
+import bodyParser from 'body-parser'
+
+import cors from 'cors'
+
+import morgan from 'morgan'
 
 import jwt from 'jsonwebtoken'
 
@@ -29,19 +39,13 @@ mongoose.connect(process.env.MONGODB_URI)
 app.set('view engine', 'ejs')
 
 
-// this is from the fullstackopen tutoria. I could still understand it better:
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7)
-  }
-  return null
-}
+
 
 const cookieSchema = new mongoose.Schema({
   slug: { type: String, unique: true, required: true},
   name: { type: String, required: true },
   priceInCents: { type: Number, required: true },
+  description: { type: String, default: 'no description'},
   isInStock: { type: Boolean, default: true, required: true }
 })
 
@@ -61,10 +65,27 @@ const numberOfCookiesSold = 268
 
 
 
+
+// dependencies for Express fileUploader, according to attacomsian tutorial.
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(morgan('dev'))
+
+app.use(fileUpload({
+  createParentPath: true,
+  useTempFiles: true,
+  tempFileDir: '/tmp/',
+  debug: true,
+  limits: { fileSize: 5 * 1024 * 1024 * 1024 }
+}))
+
+
 app.use(logger)
 
 // this would keep things simpler, no need to rename everything '/assets':
 // app.use(express.static('public'));
+// right now this is unused:
 app.use('/assets', express.static('public'))
 
 
@@ -72,11 +93,13 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
 
-
 // i had to do lots of troubleshooting until I realized that these two app.use('/api...) things have to come after all other app.use things. Especially the express.urlencoded thing
+// I could use a refresher on how exactly this app.use stuff below works, in contrast to the app.use I've seen above which makes more sense to me
 app.use('/api/users', usersRouter)
 
 app.use('/api/login', loginRouter)
+
+
 
 
 
@@ -86,23 +109,44 @@ app.listen(process.env.PORT, () => {
 
 
 
+
+// this is from the fullstackopen tutorial. I could still understand it better:
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+
+  console.log('authorization is ' + authorization)
+
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
+
+
 // ======================== gets
+
+app.get('/react', async (request, response) => {
+  response.render('react')
+})
 
 app.get('/secret', async (request, response) => {
   const token = getTokenFrom(request)
+  console.log('token is ' + token)
   
   const decodedToken = jwt.verify(token, process.env.SECRET)
+
+  console.log('decoded token is ' + decodedToken)
 
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
 
-
-
-
   response.json("this page is only visible to logged-in users")
 })
 
+
+// still figuring out what this does, how this is accessed
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({})
   response.json(users)
@@ -190,6 +234,34 @@ app.get('/contact', (request, response) => {
 
 // ======================== posts
 
+app.post('/upload', async(request,response) => {
+  console.log(request.files.file)
+  try {
+    if (!request.file) {
+      response.send({
+        status: false,
+        message: 'There was no file uploaded'
+      })
+    } else {
+      let file = request.files.file
+
+      file.mv('./uploads/' + files.filename)
+
+      response.send({
+        status: true,
+        message: 'File uploaded.',
+        data: {
+          name: file.name,
+          mimetype: file.mimetype,
+          size: file.size
+        }
+      })
+    }
+  } catch (err) {
+    response.status(500).send(err)
+  }
+})
+
 app.post('/contact', (request, response) => {
   console.log('Contact form submission: ', request.body)
   response.send('Thank you for your message. We will be in touch soon.')
@@ -236,7 +308,7 @@ app.post('/add-cookies', (request, response) => {
 })
 
 
-// ======================== APIs
+// ======================== APIs, old, used to work when there was a 'cookies' variable that was an array of cookies data
 
 app.get('/api/v1/cookies', (request, response) => {
   response.json(cookies)

@@ -29,7 +29,7 @@ usersRouter.post('/', async (request, response) => {
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
-    // constructs a new user from the User model, I think. passwordHash is saved, instead of password itself. That way the password is never available in the databse, I think.
+    // constructs a new user from the User model, I think. passwordHash is saved, instead of password itself. That way the password is never available in the database, I think.
     const user = new User({
         username,
         name,
