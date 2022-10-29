@@ -8,6 +8,7 @@ const app = express()
 
 import bodyParser from 'body-parser'
 
+// apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
 import cors from 'cors'
 
 import morgan from 'morgan'
@@ -63,14 +64,25 @@ const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 const numberOfCookiesSold = 268
 
 
+// I don't know why localhost:8081 is used, that's just what the tutorial said.
+let corsOptions = {
+  origin: "http://localhost:8081"
+}
+
 
 
 
 // dependencies for Express fileUploader, according to attacomsian tutorial.
-app.use(cors())
+app.use(cors(corsOptions))
+
+// I don't know where this is supposed to come from:
+import { initRoutes } from './routes/index.js'
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(morgan('dev'))
+
+initRoutes(app)
 
 app.use(fileUpload({
   createParentPath: true,
@@ -84,7 +96,7 @@ app.use(fileUpload({
 app.use(logger)
 
 // this would keep things simpler, no need to rename everything '/assets':
-// app.use(express.static('public'));
+// app.use(express.static(public'));
 // right now this is unused:
 app.use('/assets', express.static('public'))
 
@@ -98,6 +110,9 @@ app.use(express.json())
 app.use('/api/users', usersRouter)
 
 app.use('/api/login', loginRouter)
+
+
+
 
 
 

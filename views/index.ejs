@@ -35,11 +35,24 @@
 
     <br />
 
+
+    <p> A working upload form, for local storage for now (still need to setup the online database version): </p>
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <!-- <input name="name" type="text" placeholder="File name" /> -->
         <input type="file" name="file" placeholder="File to upload" />
         <input type="submit">
     </form>
+
+    <p> Upload audio to Google Cloud Storage:</p>
+    <form action="/upload2" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" placeholder="Audio file to upload" />
+        <input type="submit">
+    </form>
+
+    <p>Play the audio you uploaded to Google Cloud Storage:</p>
+    <audio controller>
+        <source src="https://storage.googleapis.com/music-self-recording-file-uploads/audiofile.mp3" type="audio/mp3">
+    </audio>
 
     </main>
 
