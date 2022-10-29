@@ -3,13 +3,13 @@ import { processFileMiddleware } from "../middlewares/upload.js"
 import { format } from "util"
 import { Storage } from "@google-cloud/storage"
 
-const storage = new Storage({ keyFilename: "google-cloud-key.json" })
+export const storage = new Storage({ keyFilename: "google-cloud-key.json" })
 
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
 
 const upload = async (request, response) => {
-    console.log(request.file)
+
     try {
         await processFileMiddleware(request, response)
 
@@ -21,16 +21,27 @@ const upload = async (request, response) => {
         }
 
 
-        const blob = bucket.file(request.file.originalname)
+        // deletes previous files. random person on stackoverflow needed to use '%2F' instead of '/' to make it work. me too! i don't know why
+        const deleteableFolderName = 'deleteable'
+        const files = await bucket.getFiles()
+        console.log(files)
+        const deleteableFiles = files[0].filter(f => f.id.includes(deleteableFolderName + '%2F'))
+        deleteableFiles.forEach(async file => {
+            await file.delete()
+        })
+
+
+        const blob = bucket.file('deleteable/' + request.file.originalname)
         const blobStream = blob.createWriteStream({ 
             resumable: false
         })
+
 
         blobStream.on("error", (err) => {
             response.status(500).send({ message: err.message })
         })
 
-        // this makes a url that can be used to directly access the uploaded file
+        // all this makes a url that can be used to directly access the uploaded file
         blobStream.on("finish", async (data) => {
             const publicUrl = format(
                 `https://storage.googleapis.com/${bucket.name}/${blob.name}`
@@ -38,7 +49,7 @@ const upload = async (request, response) => {
 
             // here makes the file public. but i don't know if that's actually necessary for my project
             try {
-                await bucket.file(request.file.originalname).makePublic()
+                await bucket.file('deleteable/' + request.file.originalname).makePublic()
             } catch {
                 return response.status(500).send({
                     message: 

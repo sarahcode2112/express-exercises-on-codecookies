@@ -77,6 +77,7 @@ app.use(cors(corsOptions))
 
 // I don't know where this is supposed to come from:
 import { initRoutes } from './routes/index.js'
+import { fileToPlay } from './helpers/audio-file-finder.js'
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
@@ -172,7 +173,8 @@ app.get('/', (request, response) => {
 
   response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
   nameOfPage: "Cookieshop",
-  numberOfCookiesSold: 267
+  numberOfCookiesSold: 267,
+  fileToPlay: fileToPlay
 })
 
 })
