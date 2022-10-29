@@ -237,7 +237,7 @@ app.get('/contact', (request, response) => {
 app.post('/upload', async(request,response) => {
   console.log(request.files.file)
   try {
-    if (!request.file) {
+    if (!request.files.file) {
       response.send({
         status: false,
         message: 'There was no file uploaded'
@@ -245,7 +245,7 @@ app.post('/upload', async(request,response) => {
     } else {
       let file = request.files.file
 
-      file.mv('./uploads/' + files.filename)
+      file.mv('./uploads/' + file.name)
 
       response.send({
         status: true,
