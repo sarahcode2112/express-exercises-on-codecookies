@@ -45,13 +45,14 @@
 
     <p> Upload audio to Google Cloud Storage:</p>
     <form action="/upload2" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" placeholder="Audio file to upload" />
+        <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload" />
         <input type="submit">
     </form>
 
+    <!-- here I could put some kind of forEach loop, which displays all the audio files in the google cloud storage bucket? And each user would have to have their own bucket folder, I guess, which auto-deletes the contents after they leave the site? And/or, their uploads have a unique user ID attached to them, and they only see the uploads that match their own ID? With that last point, I guess connecting with MongoDB makes sense, and finishing the authentication work too. (Maybe I can skip the ForEach loop and keep it at one file per user, for now) -->
+
     <p>Play the audio you uploaded to Google Cloud Storage:</p>
-    <audio controller>
-        <source src="https://storage.googleapis.com/music-self-recording-file-uploads/audiofile.mp3" type="audio/mp3">
+    <audio controls src="https://storage.googleapis.com/music-self-recording-file-uploads/audiofile.mp3" type="audio">
     </audio>
 
     </main>
