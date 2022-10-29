@@ -21,7 +21,7 @@ const upload = async (request, response) => {
         }
 
 
-        const blob = bucket.file(request.file.fieldname)
+        const blob = bucket.file(request.file.originalname)
         const blobStream = blob.createWriteStream({ 
             resumable: false
         })
@@ -38,7 +38,7 @@ const upload = async (request, response) => {
 
             // here makes the file public. but i don't know if that's actually necessary for my project
             try {
-                await bucket.file(request.file.fieldname).makePublic()
+                await bucket.file(request.file.originalname).makePublic()
             } catch {
                 return response.status(500).send({
                     message: 
