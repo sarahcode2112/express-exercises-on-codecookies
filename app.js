@@ -1,12 +1,27 @@
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
+import UserDetails from './user.js'
 
 const app = express()
 
+app.use(session({
+  secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
+  resave: false,
+  saveUnitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
+}))
 
 
 import bodyParser from 'body-parser'
+
+
+// login tutorial dependencies
+import session from 'express-session'
+
+import passport from 'passport'
+
+import connectEnsureLogin from 'connect-ensure-login'
 
 // apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
 import cors from 'cors'
@@ -21,7 +36,10 @@ import { logger } from './middlewares/logger.js'
 
 import { readablePrice } from './helpers/cookie-views.js'
 
-import { User } from './models/user.js'
+
+import User from './user.js'
+// this line above used to be what is below: 
+// import { User } from './models/user.js'
 
 
 
@@ -33,7 +51,10 @@ import { usersRouter } from './controllers/users.js'
 
 
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
   .then(() => console.log('💽 Database connected'))
   .catch(error => console.error(error))
 
@@ -80,7 +101,16 @@ import { initRoutes } from './routes/index.js'
 import { fileToPlay } from './helpers/audio-file-finder.js'
 
 app.use(bodyParser.json())
+// below could be a problem. it was extended: true in my original, but in this login tutorial it's extended: false
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.use(User.createStrategy())
+
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
+
 app.use(morgan('dev'))
 
 initRoutes(app)
@@ -146,20 +176,41 @@ app.get('/react', async (request, response) => {
   response.render('react')
 })
 
-app.get('/secret', async (request, response) => {
-  const token = getTokenFrom(request)
-  console.log('token is ' + token)
-  
-  const decodedToken = jwt.verify(token, process.env.SECRET)
 
-  console.log('decoded token is ' + decodedToken)
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' })
-  }
-
-  response.json("this page is only visible to logged-in users")
+app.get('/dashboard', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
+  response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} <a href="/logout">Log Out</a> <br></br> <a href="/secret">Members Only</a>`)
 })
+
+app.get('/secret', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
+  response.json("This is a secret page")
+})
+
+app.get('/logout', function(request,response) {
+  request.logout()
+  response.redirect('/')
+})
+
+// I found something (https://stackoverflow.com/questions/72336177/error-reqlogout-requires-a-callback-function) that said this should be what is above instead. But I tried it and it didn't work:
+// req.logout(function(err) {
+//   if (err) { return next(err); }
+//   res.redirect('/');
+// });
+
+// // the old jwt attempt. it never worked:
+// app.get('/secret', async (request, response) => {
+//   const token = getTokenFrom(request)
+//   console.log('token is ' + token)
+  
+//   const decodedToken = jwt.verify(token, process.env.SECRET)
+
+//   console.log('decoded token is ' + decodedToken)
+
+//   if (!decodedToken.id) {
+//     return response.status(401).json({ error: 'token missing or invalid' })
+//   }
+
+//   response.json("this page is only visible to logged-in users")
+// })
 
 
 // still figuring out what this does, how this is accessed
@@ -251,6 +302,11 @@ app.get('/contact', (request, response) => {
 
 // ======================== posts
 
+app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), function(request,response) {
+  console.log(request.user)
+  response.redirect('/dashboard')
+})
+
 app.post('/upload', async(request,response) => {
   console.log(request.files.file)
   try {
@@ -322,6 +378,14 @@ app.post('/add-cookies', (request, response) => {
   response
     .status(200)
     .json({"Thank you for your cookie submission. It is copied here": request.body})
+})
+
+app.post('/add-user', async (request, response) => {
+  UserDetails.register({
+    username: request.body.username, active: false }, request.body.password);
+  response
+    .status(200)
+    .send("Thank you for creating a new user, " + request.body.username)
 })
 
 
