@@ -1,6 +1,6 @@
 import util from "util"
 import Multer from "multer"
-const maxSize = 5 * 1024 * 1024
+const maxSize = 5 * 1024 * 1024 // 5mb
 
 let processFile = Multer({
     storage: Multer.memoryStorage(),

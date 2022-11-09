@@ -1,9 +1,14 @@
+// I don't know where this is supposed to come from:
+import { initRoutes } from './routes/index.js'
+// must return the below line into action, but it will trigger an await error for jest testing:
+// import { fileToPlay } from './helpers/audio-file-finder.js'
+
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
 import UserDetails from './user.js'
 
-const app = express()
+export const app = express()
 
 app.use(session({
   secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
@@ -55,7 +60,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  .then(() => console.log('💽 Database connected'))
+  // .then(() => console.log('💽 Database connected'))
   .catch(error => console.error(error))
 
 app.set('view engine', 'ejs')
@@ -96,9 +101,7 @@ let corsOptions = {
 // dependencies for Express fileUploader, according to attacomsian tutorial.
 app.use(cors(corsOptions))
 
-// I don't know where this is supposed to come from:
-import { initRoutes } from './routes/index.js'
-import { fileToPlay } from './helpers/audio-file-finder.js'
+
 
 app.use(bodyParser.json())
 // below could be a problem. it was extended: true in my original, but in this login tutorial it's extended: false
@@ -178,7 +181,7 @@ app.get('/react', async (request, response) => {
 
 
 app.get('/dashboard', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
-  response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} <a href="/logout">Log Out</a> <br></br> <a href="/secret">Members Only</a>`)
+  response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} <a href="/logout">Log Out (return to home page)</a> <br></br> <a href="/secret">Members Only</a>`)
 })
 
 app.get('/secret', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
@@ -186,8 +189,10 @@ app.get('/secret', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
 })
 
 app.get('/logout', function(request,response) {
-  request.logout()
-  response.redirect('/')
+  request.logout(function(err) {
+  if (err) { return next(err); }
+  response.redirect('/');
+});
 })
 
 // I found something (https://stackoverflow.com/questions/72336177/error-reqlogout-requires-a-callback-function) that said this should be what is above instead. But I tried it and it didn't work:
@@ -227,7 +232,7 @@ app.get('/', (request, response) => {
   numberOfCookiesSold: 267,
   fileToPlay: fileToPlay
 })
-
+  console.log("fileToPlay is " + fileToPlay.metadata.selfLink)
 })
 
 app.get('/news', async (request, response) => {

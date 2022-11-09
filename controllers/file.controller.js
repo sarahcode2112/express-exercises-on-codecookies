@@ -21,7 +21,7 @@ const upload = async (request, response) => {
         }
 
 
-        // deletes previous files. random person on stackoverflow needed to use '%2F' instead of '/' to make it work. me too! i don't know why
+        // deletes previous files so that user can only have one uploaded file in the database at a time. random person on stackoverflow needed to use '%2F' instead of '/' to make it work. me too! i don't know why
         const deleteableFolderName = 'deleteable'
         const files = await bucket.getFiles()
         console.log(files)
@@ -59,8 +59,9 @@ const upload = async (request, response) => {
                 })
             }
 
+            
             response.status(200).send({
-                message: "Upload successful of " + request.file,
+                message: "Upload successful of " + request.file.fieldname,
                 url: publicUrl
             })
         })

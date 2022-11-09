@@ -11,7 +11,7 @@
             Some routes that work as POST requests: /api/users, /api/login. But these got me stuck on finishing with jwt, so I replaced their functionality with the simpler /add-user and /login
         </p>
         <p>
-            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the right token attached to the request: /secret. (But I am still working on getting that token-attached request to work in the UI, outside of something like Postman.)
+            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the new login method with passport and mongo: /dashboard and /secret. (I was not able to get a token-attached request, with jwt, to work in the UI, outside of something like Postman. Got lost in the tutorial for that one, which used React instead of vanilla javascript with EJS.)
         </p>
         <p>
             Welcome to the Cookie shop.
@@ -44,7 +44,7 @@
     </form>
 
 
-    <h3> A working upload form, for local storage for now (still need to setup the online database version): </h3>
+    <h3> Upload a form to local storage: </h3>
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <!-- <input name="name" type="text" placeholder="File name" /> -->
         <input type="file" name="file" placeholder="File to upload" />
@@ -59,9 +59,9 @@
 
     <!-- here I could put some kind of forEach loop, which displays all the audio files in the google cloud storage bucket? And each user would have to have their own bucket folder, I guess, which auto-deletes the contents after they leave the site? And/or, their uploads have a unique user ID attached to them, and they only see the uploads that match their own ID? With that last point, I guess connecting with MongoDB makes sense, and finishing the authentication work too. (Maybe I can skip the ForEach loop and keep it at one file per user, for now) -->
 
-    <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
+    <!-- <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
     <audio controls src="<%= fileToPlay.metadata.mediaLink %>" type="audio">
-    </audio>
+    </audio> -->
 
     </main>
 
