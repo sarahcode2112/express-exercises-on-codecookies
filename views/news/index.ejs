@@ -10,9 +10,12 @@
     <p>Our current news:</p>
     <ul>
       <% news.forEach(newsItem => { %>
-        <li>
-            <strong> Title: <%= newsItem.title %>. </strong> Content: <%= newsItem.content %>. Date: <%= newsItem.date %>
-        </li>
+        <div class="news-article">
+            <strong> <%= newsItem.title %>. </strong>
+            <p> Date uploaded: <%= newsItem.date %> </p>
+            <p> <%= newsItem.content %>. </p>
+            <br>
+        </div>
       <% }) %>
     </ul>
   </main>
