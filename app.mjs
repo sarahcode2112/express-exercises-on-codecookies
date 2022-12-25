@@ -44,7 +44,7 @@ import mongoose from 'mongoose'
 
 import { logger } from './middlewares/logger.js'
 
-import { readablePrice } from './helpers/cookie-views.js'
+import { readablePrice } from './helpers/readable-price.js'
 
 import User from './user.js'
 // this line above used to be what is below: 
@@ -57,14 +57,16 @@ import { loginRouter } from './controllers/login.js'
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/users.js'
 
-if (process.env.NODE_ENV !== 'test') {
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-  // .then(() => console.log('💽 Database connected'))
+  .then(() => {
+    if (process.env.NODE_ENV !== 'test') {  console.log('💽 Database connected') 
+    }
+  })
   .catch(error => console.error(error))
-}
+
 
 app.set('view engine', 'ejs')
 
