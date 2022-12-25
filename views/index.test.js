@@ -37,7 +37,7 @@ describe('Test banana route', () => {
         //     .then(response => {
         //         expect(response.text).toContain('Cookieshop')
         //     })
-    })
+    }, 100000)
 })
             
     
