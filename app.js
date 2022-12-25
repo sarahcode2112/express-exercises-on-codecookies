@@ -75,7 +75,7 @@ const Cookie = mongoose.model('Cookie', cookieSchema)
 
 const newsItemSchema = new mongoose.Schema({
   // I don't know if my 'untitled' thing works as envisioned, but I wanted to try it:
-  title: { type: String, default: 'Untitled',unique: true, required: true },
+  title: { type: String, default: 'Untitled', unique: true, required: true },
   content: { type: String, required: true },
   date: { type: Number, required: true }
 })
@@ -84,7 +84,7 @@ const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 
 const numberOfCookiesSold = 268
 
-// I don't know why localhost:8081 is used, that's just what the tutorial said.
+// Using localhost:8081 based on tutorial:
 let corsOptions = {
   origin: "http://localhost:8081"
 }
@@ -94,7 +94,7 @@ app.use(cors(corsOptions))
 
 
 app.use(bodyParser.json())
-// below could be a problem. it was extended: true in my original, but in this login tutorial it's extended: false
+// below could be a problem. it was extended: true in my original, but in one login tutorial it's extended: false
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -119,7 +119,7 @@ app.use(fileUpload({
 
 app.use(logger)
 
-// sets where to point hrefs, to get static assets like css and js files.
+// useful for setting where to point hrefs, to get static assets like css and js files.
 app.use('/assets', express.static('public'))
 
 
@@ -134,7 +134,7 @@ app.use('/api/login', loginRouter)
 
 
 
-// credit to fullstackopen tutorial:
+// credit to fullstackopen tutorial for this:
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
 
@@ -168,7 +168,6 @@ app.get('/logout', function(request,response) {
 });
 })
 
-// still figuring out what this does, how this is accessed
 usersRouter.get('/', async (request, response) => {
   const users = await User.find({})
   response.json(users)
@@ -227,16 +226,16 @@ app.get('/news/new', (request, response) => {
 
 app.get('/cookies/:slug', async (request, response) => {
   try {
-  const slug = request.params.slug
-  const cookie = await Cookie.findOne({ slug: slug }).exec()
-  if(!cookie) throw new Error('Cookie not found')
+    const slug = request.params.slug
+    const cookie = await Cookie.findOne({ slug: slug }).exec()
+    if(!cookie) throw new Error('Cookie not found')
 
-  response.render('cookies/show', {
-    cookie: cookie,
-    readablePrice: readablePrice
-  })
+    response.render('cookies/show', {
+      cookie: cookie,
+      readablePrice: readablePrice
+    })
 
-  }catch(error) {
+  } catch(error) {
     console.error(error)
     response.status(404).send('Could not find the cookie you\'re looking for.')
   }
@@ -247,7 +246,6 @@ app.get('/about', (request, response) => {
 })
 
 app.get('/contact', (request, response) => {
-  
   response.render('contact')
 })
 
@@ -338,32 +336,4 @@ app.post('/add-user', async (request, response) => {
   response
     .status(200)
     .send("Thank you for creating a new user, " + request.body.username)
-})
-
-
-// ======================== APIs, old, used to work when there was a 'cookies' variable that was an array of cookies data
-
-app.get('/api/v1/cookies', (request, response) => {
-  response.json(cookies)
-})
-
-app.get('/api/v1/cookies/:slug', (request, response) => {
-  const cookieId = request.params.slug
-
-  console.log(cookieId)
-
-  cookies.forEach((element) => 
-  { 
-    console.log(element)
-
-    console.log(element.slug)
-    
-    if (element.slug === cookieId) {
-      response.json(element)
-    }
-  })
-
-  response
-    .status(404)
-    .send("404 Error: That cookie is not in our list.")
 })
