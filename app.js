@@ -130,9 +130,7 @@ app.use(fileUpload({
 
 app.use(logger)
 
-// this would keep things simpler, no need to rename everything '/assets':
-// app.use(express.static(public'));
-// right now this is unused:
+// sets where to point hrefs, to get static assets like css and js files.
 app.use('/assets', express.static('public'))
 
 
@@ -140,8 +138,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(express.json())
 
-// i had to do lots of troubleshooting until I realized that these two app.use('/api...) things have to come after all other app.use things. Especially the express.urlencoded thing
-// I could use a refresher on how exactly this app.use stuff below works, in contrast to the app.use I've seen above which makes more sense to me
+// these two app.use('/api...) things have to come after all other app.use things. Especially after the express.urlencoded thing
 app.use('/api/users', usersRouter)
 
 app.use('/api/login', loginRouter)
