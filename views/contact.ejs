@@ -1,18 +1,21 @@
 <html>
+
     <%- include('includes/head', {title: 'Contact | Cookieshop'})  %>
     
     <body>
+        
         <%- include('includes/header') %>
 
         <h2>Contact</h2>
-
         <form action="/contact" method="POST">
             <input type="text" name="name" placeholder="name" /><br />
             <input type="email" name="email" placeholder="email" /><br />
             <textarea name="message" placeholder="message"></textarea><br />
-      
             <button>Send</button>
         </form>
+        
         <%- include('includes/footer') %>
+
     </body>
+
 </html>
