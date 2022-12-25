@@ -1,4 +1,4 @@
-import { app } from '../app'
+import { app } from '../app.mjs'
 import supertest from 'supertest'
 import express from 'express'
 import mongoose from 'mongoose'
@@ -9,13 +9,15 @@ import { request } from 'http'
 
 
 
-describe('Test the banana page', () => {
-    // let server
+describe('Test banana route', () => {
+    let server
 
     beforeEach(() => {
         jest.resetModules();
+        server = app.listen(3000)
+        server.close()
         // const app = express()
-        // server = app.listen(3000)
+        
     })
 
     afterEach(() => {
@@ -24,7 +26,9 @@ describe('Test the banana page', () => {
     })
 
     test('It should return an error', async () => {
-
+        
+        debugger
+        
         const response = await request(app).get('/cookies/banana')
         expect(response.statusCode).toBe(404)
 

@@ -1,5 +1,5 @@
 // for file uploading route:
-import { initRoutes } from './routes/index.js'
+import { initRoutes } from './routes/index.mjs'
 // commenting out the below line can turn on or off an await-related error, when Jest testing:
 import { fileToPlay } from './helpers/audio-file-finder.js'
 
@@ -23,9 +23,14 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }))
 
-app.listen(process.env.PORT, async () => {
-  await console.log(`The server has started running on port ${process.env.PORT}`)
-})
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, async () => {
+    await console.log(`The server has started running on port ${process.env.PORT}`)
+  })
+}
+
+
 
 
 // apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
@@ -52,13 +57,14 @@ import { loginRouter } from './controllers/login.js'
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/users.js'
 
-
+if (process.env.NODE_ENV !== 'test') {
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
   // .then(() => console.log('💽 Database connected'))
   .catch(error => console.error(error))
+}
 
 app.set('view engine', 'ejs')
 
@@ -115,6 +121,8 @@ app.use(fileUpload({
   debug: true,
   limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 }))
+
+
 
 
 app.use(logger)
