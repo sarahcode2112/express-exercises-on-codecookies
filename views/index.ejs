@@ -8,24 +8,27 @@
 
     <main>
         <p>
-            Some routes that work as POST requests: /api/users, /api/login. But these got me stuck on finishing with jwt, so I replaced their functionality with the simpler /add-user and /login
-        </p>
-        <p>
-            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the new login method with passport and mongo: /dashboard and /secret. (I was not able to get a token-attached request, with jwt, to work in the UI, outside of something like Postman. Got lost in the tutorial for that one, which used React instead of vanilla javascript with EJS.)
-        </p>
-        <p>
-            Welcome to the Cookie shop.
+            Welcome to this Cookie shop website, which doubles as a music file uploading/playback website.
         </p>
 
         <p>
             We currently have <%= numberOfCookiesInStock %> cookies in stock.
         </p>
+
         <p>
             We have sold <%= numberOfCookiesSold %> cookies.
+        </p>
+
+        <p>
+            Some routes that work as POST requests: /api/users, /api/login. But these got me stuck on finishing with jwt, so I replaced their functionality with the simpler /add-user and /login
+        </p>
+        <p>
+            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the new login method with passport and mongo: /dashboard and /secret. (I was not able to get a token-attached request, with jwt, to work in the UI, outside of something like Postman. Got lost in the tutorial for that one, which used React instead of vanilla javascript with EJS.)
         </p>
     
 
     <br />
+
     <h3>Login form:</h3>
     <form action="/login" method="POST">
         <input type="text" name="username" placeholder="username" /><br />
@@ -35,7 +38,6 @@
 
     <br />
 
-
     <h3>New user form:</h3>
     <form action ="/add-user" method="POST">
         <input type="text" name="username" placeholder="username" /><br />
@@ -43,10 +45,8 @@
         <button>Send</button>
     </form>
 
-
-    <h3> Upload a form to local storage: </h3>
+    <h3> Upload an audio file to local storage: </h3>
     <form action="/upload" method="POST" enctype="multipart/form-data">
-        <!-- <input name="name" type="text" placeholder="File name" /> -->
         <input type="file" name="file" placeholder="File to upload" />
         <input type="submit">
     </form>
@@ -57,11 +57,9 @@
         <input type="submit">
     </form>
 
-    <!-- here I could put some kind of forEach loop, which displays all the audio files in the google cloud storage bucket? And each user would have to have their own bucket folder, I guess, which auto-deletes the contents after they leave the site? And/or, their uploads have a unique user ID attached to them, and they only see the uploads that match their own ID? With that last point, I guess connecting with MongoDB makes sense, and finishing the authentication work too. (Maybe I can skip the ForEach loop and keep it at one file per user, for now) -->
-
-    <!-- <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
+    <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
     <audio controls src="<%= fileToPlay.metadata.mediaLink %>" type="audio">
-    </audio> -->
+    </audio>
 
     </main>
 
