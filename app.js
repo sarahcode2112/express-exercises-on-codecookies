@@ -1,4 +1,4 @@
-// I don't know where this is supposed to come from:
+// for file uploading route:
 import { initRoutes } from './routes/index.js'
 // must return the below line into action, but it will trigger an await error for jest testing:
 import { fileToPlay } from './helpers/audio-file-finder.js'
@@ -13,7 +13,6 @@ import bodyParser from 'body-parser'
 // login tutorial dependencies:
 import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
-
 
 export const app = express()
 
@@ -42,11 +41,9 @@ import { logger } from './middlewares/logger.js'
 
 import { readablePrice } from './helpers/cookie-views.js'
 
-
 import User from './user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
-
 
 
 import { loginRouter } from './controllers/login.js'
@@ -54,7 +51,6 @@ import { loginRouter } from './controllers/login.js'
 
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/users.js'
-
 
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -65,8 +61,6 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch(error => console.error(error))
 
 app.set('view engine', 'ejs')
-
-
 
 
 const cookieSchema = new mongoose.Schema({
@@ -90,18 +84,13 @@ const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 
 const numberOfCookiesSold = 268
 
-
 // I don't know why localhost:8081 is used, that's just what the tutorial said.
 let corsOptions = {
   origin: "http://localhost:8081"
 }
 
-
-
-
 // dependencies for Express fileUploader, according to attacomsian tutorial.
 app.use(cors(corsOptions))
-
 
 
 app.use(bodyParser.json())
@@ -145,7 +134,7 @@ app.use('/api/login', loginRouter)
 
 
 
-// this is from the fullstackopen tutorial. I could still understand it better:
+// credit to fullstackopen tutorial:
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
 
@@ -158,13 +147,11 @@ const getTokenFrom = request => {
 }
 
 
-
 // ======================== gets
 
 app.get('/react', async (request, response) => {
   response.render('react')
 })
-
 
 app.get('/dashboard', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
   response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} <a href="/logout">Log Out (return to home page)</a> <br></br> <a href="/secret">Members Only</a>`)
@@ -180,29 +167,6 @@ app.get('/logout', function(request,response) {
   response.redirect('/');
 });
 })
-
-// I found something (https://stackoverflow.com/questions/72336177/error-reqlogout-requires-a-callback-function) that said this should be what is above instead. But I tried it and it didn't work:
-// req.logout(function(err) {
-//   if (err) { return next(err); }
-//   res.redirect('/');
-// });
-
-// // the old jwt attempt. it never worked:
-// app.get('/secret', async (request, response) => {
-//   const token = getTokenFrom(request)
-//   console.log('token is ' + token)
-  
-//   const decodedToken = jwt.verify(token, process.env.SECRET)
-
-//   console.log('decoded token is ' + decodedToken)
-
-//   if (!decodedToken.id) {
-//     return response.status(401).json({ error: 'token missing or invalid' })
-//   }
-
-//   response.json("this page is only visible to logged-in users")
-// })
-
 
 // still figuring out what this does, how this is accessed
 usersRouter.get('/', async (request, response) => {
@@ -278,7 +242,6 @@ app.get('/cookies/:slug', async (request, response) => {
   }
 })
 
-
 app.get('/about', (request, response) => {
   response.render('about', {numberOfCookiesSold: numberOfCookiesSold})
 })
@@ -287,8 +250,6 @@ app.get('/contact', (request, response) => {
   
   response.render('contact')
 })
-
-
 
 
 // ======================== posts
@@ -399,8 +360,6 @@ app.get('/api/v1/cookies/:slug', (request, response) => {
     
     if (element.slug === cookieId) {
       response.json(element)
-
-    
     }
   })
 
@@ -408,5 +367,3 @@ app.get('/api/v1/cookies/:slug', (request, response) => {
     .status(404)
     .send("404 Error: That cookie is not in our list.")
 })
-
-
