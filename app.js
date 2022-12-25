@@ -24,8 +24,8 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }))
 
-app.listen(process.env.PORT, () => {
-  console.log(`The server has started running on port ${process.env.PORT}`)
+app.listen(process.env.PORT, async () => {
+  await console.log(`The server has started running on port ${process.env.PORT}`)
 })
 
 

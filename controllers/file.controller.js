@@ -1,5 +1,4 @@
 import { processFileMiddleware } from "../middlewares/upload.js"
-
 import { format } from "util"
 import { Storage } from "@google-cloud/storage"
 
@@ -7,21 +6,17 @@ export const storage = new Storage({ keyFilename: "google-cloud-key.json" })
 
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
-
 const upload = async (request, response) => {
-
     try {
         await processFileMiddleware(request, response)
 
         console.log(request.file)
 
-        // not sure if request.file is right here, or request.files.file or something like that.
         if (!request.file) {
             return response.status(400).send({ message: "No file available to upload." })
         }
 
-
-        // deletes previous files so that user can only have one uploaded file in the database at a time. random person on stackoverflow needed to use '%2F' instead of '/' to make it work. me too! i don't know why
+        // deletes previous files, so that user can only have one uploaded file in the database at a time. must use '%2F' instead of '/' to make it work.
         const deleteableFolderName = 'deleteable'
         const files = await bucket.getFiles()
         console.log(files)
@@ -30,25 +25,22 @@ const upload = async (request, response) => {
             await file.delete()
         })
 
-
-        
         const blob = bucket.file('deleteable/' + request.file.originalname)
         const blobStream = blob.createWriteStream({ 
             resumable: false
         })
 
-
         blobStream.on("error", (err) => {
             response.status(500).send({ message: err.message })
         })
 
-        // all this makes a url that can be used to directly access the uploaded file
+        // makes a url that can be used to directly access the uploaded file
         blobStream.on("finish", async (data) => {
             const publicUrl = format(
                 `https://storage.googleapis.com/${bucket.name}/${blob.name}`
             )
 
-            // here makes the file public. but i don't know if that's actually necessary for my project
+            // makes the file public.  may be unnecessary for my project.
             try {
                 await bucket.file('deleteable/' + request.file.originalname).makePublic()
             } catch {
@@ -58,15 +50,14 @@ const upload = async (request, response) => {
                     url: publicUrl
                 })
             }
-
             
             response.status(200).send({
                 message: "Upload successful of " + request.file.fieldname,
                 url: publicUrl
             })
         })
-
         blobStream.end(request.file.buffer)
+        
     } catch (err) {
         if (err.code == "LIMIT_FILE_SIZE") {
             return response.status(500).send({

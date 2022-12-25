@@ -2,29 +2,35 @@ import { app } from '../app'
 import supertest from 'supertest'
 import express from 'express'
 import mongoose from 'mongoose'
+import { request } from 'http'
 
 
 
-// describe('My Test Suite', () => {
-//     let server
+describe('Test the banana page', () => {
+    // let server
 
-//     beforeEach(() => {
-//         const app = express()
-//         server = app.listen(3000)
-//     })
+    beforeEach(() => {
+        jest.resetModules();
+        // const app = express()
+        // server = app.listen(3000)
+    })
 
-//     afterEach(() => {
-//         server.close()
-//         mongoose.connection.close()
-//     })
+    afterEach(() => {
+        server.close()
+        mongoose.connection.close()
+    })
 
-//     test('Unit test for index page', async () => {
-//         return await supertest(app)
-//             .get('/')
-//             .then(response => {
-//                 expect(response.text).toContain('Cookieshop')
-//             })
-//     })
-// })
+    test('It should return an error', async () => {
+
+        const response = await request(app).get('/cookies/banana')
+        expect(response.statusCode).toBe(404)
+
+        // return await supertest(app)
+        //     .get('/')
+        //     .then(response => {
+        //         expect(response.text).toContain('Cookieshop')
+        //     })
+    })
+})
             
     
