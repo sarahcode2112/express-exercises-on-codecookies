@@ -1,32 +1,33 @@
 // I don't know where this is supposed to come from:
 import { initRoutes } from './routes/index.js'
 // must return the below line into action, but it will trigger an await error for jest testing:
-// import { fileToPlay } from './helpers/audio-file-finder.js'
+import { fileToPlay } from './helpers/audio-file-finder.js'
 
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
 import UserDetails from './user.js'
+import session from 'express-session'
+import bodyParser from 'body-parser'
+
+// login tutorial dependencies:
+import passport from 'passport'
+import connectEnsureLogin from 'connect-ensure-login'
+
 
 export const app = express()
 
 app.use(session({
   secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
   resave: false,
-  saveUnitialized: true,
+  saveUninitialized: true,
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }))
 
+app.listen(process.env.PORT, () => {
+  console.log(`The server has started running on port ${process.env.PORT}`)
+})
 
-import bodyParser from 'body-parser'
-
-
-// login tutorial dependencies
-import session from 'express-session'
-
-import passport from 'passport'
-
-import connectEnsureLogin from 'connect-ensure-login'
 
 // apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
 import cors from 'cors'
@@ -144,18 +145,6 @@ app.use(express.json())
 app.use('/api/users', usersRouter)
 
 app.use('/api/login', loginRouter)
-
-
-
-
-
-
-
-
-app.listen(process.env.PORT, () => {
-  console.log(`The server has started running on port ${process.env.PORT}`)
-})
-
 
 
 
@@ -286,10 +275,10 @@ app.get('/cookies/:slug', async (request, response) => {
     readablePrice: readablePrice
   })
 
-}catch(error) {
-  console.error(error)
-  response.status(404).send('Could not find the cookie you\'re looking for.')
-}
+  }catch(error) {
+    console.error(error)
+    response.status(404).send('Could not find the cookie you\'re looking for.')
+  }
 })
 
 

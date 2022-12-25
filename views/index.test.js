@@ -1,22 +1,30 @@
 import { app } from '../app'
-
-import { request } from "node:http"
-import { hasUncaughtExceptionCaptureCallback } from "node:process"
-// import { it } from "node:test"
-
+import supertest from 'supertest'
+import express from 'express'
+import mongoose from 'mongoose'
 
 
 
+// describe('My Test Suite', () => {
+//     let server
 
+//     beforeEach(() => {
+//         const app = express()
+//         server = app.listen(3000)
+//     })
 
-describe('Unit test for index page', function() {
+//     afterEach(() => {
+//         server.close()
+//         mongoose.connection.close()
+//     })
 
-    it('should contain the word Cookieshop', function() {
-        return request(app)
-            .get('/')
-            .then(function(response){
-                hasUncaughtExceptionCaptureCallback(response.text).to.contain('Cookieshop')
-            })
-    })
-
-})
+//     test('Unit test for index page', async () => {
+//         return await supertest(app)
+//             .get('/')
+//             .then(response => {
+//                 expect(response.text).toContain('Cookieshop')
+//             })
+//     })
+// })
+            
+    
