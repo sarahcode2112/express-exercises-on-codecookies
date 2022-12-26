@@ -1,7 +1,5 @@
 // for file uploading route:
 import { initRoutes } from './routes/index.mjs'
-// commenting out the below line can turn on or off an await-related error, when Jest testing:
-import { fileToPlay } from './helpers/audio-file-finder.js'
 
 import { passReq } from './middlewares/pass-req.js'
 
@@ -174,7 +172,6 @@ app.get('/', (request, response) => {
   nameOfPage: "Cookieshop",
   numberOfCookiesSold: 267,
   publicAudioUrl: fileController.publicAudioUrl,
-  fileToPlay: fileToPlay
 })
   console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
 })
