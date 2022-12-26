@@ -3,14 +3,13 @@
 
 <%- include('includes/head', {title: 'Home | Cookieshop'}) %>
 
-<!-- allows the attached Javascript to read the publicAudioUrl variable. -->
+<!-- allow attached Javascript to read publicAudioUrl variable: -->
 <script>
     window.publicAudioUrl = '<%= publicAudioUrl %>';
-  </script>
+</script>
 
 <script src="/assets/js/show-audio-player-when-audiofile-defined.mjs" type="module" defer 
 ></script>
-
 
 <body>
     <%- include('includes/header') %>
@@ -24,12 +23,18 @@
         <p>
             We have sold <%= numberOfCookiesSold %> cookies.
         </p>
+        
+        <% if (req.isAuthenticated()) {
+        %>
+        <br>
+        <h3>Admin-only information:</h3>
         <p>
-            Some routes that work as POST requests: /api/users, /api/login. But these got me stuck on finishing with jwt, so I replaced their functionality with the simpler /add-user and /login
+            You can try this unadvertised GET request: /assets/react.html. 
+            
+            These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. Instead of that jwt system, I currently use these simpler routes: /add-user and /login
         </p>
-        <p>
-            Some routes that work as GET requests: /news, /news/new, cookies/:slug, /assets/react.html. And with the new login method with passport and mongo: /dashboard and /secret. (I was not able to get a token-attached request, with jwt, to work in the UI, outside of something like Postman. Got lost in the tutorial for that one, which used React instead of vanilla javascript with EJS.)
-        </p>
+        <% } %>
+
     <br />
 
     
