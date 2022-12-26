@@ -1,5 +1,6 @@
 import { storage } from "../controllers/upload-google.mjs"
 
+// focuses on the right bucket
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
 // new stuff, which may break something:

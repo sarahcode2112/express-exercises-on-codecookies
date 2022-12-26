@@ -8,11 +8,12 @@ const bucket = storage.bucket("music-self-recording-file-uploads")
 
 const fileController = { 
 
+// The fact that the URL variable's assignment is built into this upload function, means that the URL of the file is only defined for app.mjs after the user's first time uploading an audio file, during a given session.
 upload: async (request, response) => {
     try {
         await processFileMiddleware(request, response)
 
-        console.log("file.controller says file uploaded's original name is: " + request.file.originalname)
+        console.log("upload-google says file uploaded's original name is: " + request.file.originalname)
 
         if (!request.file) {
             return response.status(400).send({ message: "No file available to upload." })
@@ -45,7 +46,7 @@ upload: async (request, response) => {
             );
             fileController.publicAudioUrl = publicAudioUrl;
 
-            // makes the file public.  may be unnecessary for my project.
+            // makes the file publicly accessible. necessary for my project, so the user can access it through its URL.
             try {
                 await bucket.file('deleteable/' + request.file.originalname).makePublic()
             } catch {

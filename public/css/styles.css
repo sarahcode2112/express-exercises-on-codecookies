@@ -45,3 +45,8 @@ body {
     padding-top: 10px;
     padding-left: 10px
 }
+
+#audio-player {
+    display: none
+}
+

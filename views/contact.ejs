@@ -1,22 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-    <%- include('includes/head', {title: 'Contact | Cookieshop'})  %>
+<%- include('includes/head', {title: 'Contact | Cookieshop'})  %>
     
-    <body>
-        
-        <%- include('includes/header') %>
+<body>
+    
+    <%- include('includes/header') %>
 
-        <h2>Contact</h2>
-        <p>Thank you for your interest in contacting me. To keep things streamlined and organized, I use the contact form below to process incoming messages.</p>
-        <form action="/contact" method="POST">
-            <input type="text" name="name" placeholder="name" /><br />
-            <input type="email" name="email" placeholder="email" /><br />
-            <textarea name="message" placeholder="message"></textarea><br />
-            <button>Send</button>
-        </form>
-        
-        <%- include('includes/footer') %>
+    <h2>Contact</h2>
+    
+    <p>Thank you for your interest in contacting me. To keep things streamlined, I use the contact form below to process incoming messages.</p>
 
-    </body>
+    <form action="/contact" method="POST">
+        <input type="text" name="name" placeholder="name" /><br />
+        <input type="email" name="email" placeholder="email" /><br />
+        <textarea name="message" placeholder="message"></textarea><br />
+        <button>Send</button>
+    </form>
+    
+    <%- include('includes/footer') %>
+
+</body>
 
 </html>

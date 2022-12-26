@@ -192,7 +192,8 @@ app.get('/', (request, response) => {
   response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
   nameOfPage: "Cookieshop",
   numberOfCookiesSold: 267,
-  publicAudioUrl: fileController.publicAudioUrl
+  publicAudioUrl: fileController.publicAudioUrl,
+  fileToPlay: fileToPlay
 })
   console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
 })
