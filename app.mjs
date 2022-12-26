@@ -3,6 +3,8 @@ import { initRoutes } from './routes/index.mjs'
 
 import { passReq } from './middlewares/pass-req.js'
 
+import { body, validationResult } from 'express-validator'
+
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
@@ -54,6 +56,7 @@ import { loginRouter } from './controllers/jwt-login.js'
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/new-user.js'
 import { fileController } from './controllers/upload-google.mjs'
+
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -280,21 +283,29 @@ app.post('/contact', (request, response) => {
   response.send('Thank you for your message. We will be in touch soon.')
 })
 
-app.post('/cookies', async (request, response) => {
-  console.log(JSON.stringify(request.body))
-  try{
-    const cookie = new Cookie({
-      slug: request.body.slug,
-      name: request.body.name,
-      priceInCents: request.body.priceInCents
-    })
-    await cookie.save()
+app.post(
+  '/cookies', 
+  body('priceInCents').isInt(),
+  body('slug').isString().isLength({ max: 150 }).isSlug(),
+  body('name').isString().isLength({ max: 150 }),
+  async (request, response) => {
+    console.log(JSON.stringify(request.body))
 
-    response.send('Cookie Created')
-  }catch (error) {
-    console.error(error)
-    response.send('Error: The cookie could not be created.')
-  }
+    try{
+      validationResult(request).throw()
+
+      const cookie = new Cookie({
+        slug: request.body.slug,
+        name: request.body.name,
+        priceInCents: request.body.priceInCents
+      })
+      await cookie.save()
+
+      response.send(`Cookie Created. You can view <a href="/cookies/${request.body.slug}"> its new webpage </a>.`)
+    }catch (error) {
+      console.error(error)
+      response.send('Error: Unable to create your cookie.')
+    }
 })
 
 app.post('/news', async (request, response) => {
@@ -313,6 +324,7 @@ app.post('/news', async (request, response) => {
   }
 })
 
+// seems unecessary
 app.post('/add-cookies', (request, response) => {
   console.log("Cookie form submission: ", request.body)
   response
