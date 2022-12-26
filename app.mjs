@@ -49,12 +49,12 @@ import User from './user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
 
-import { loginRouter } from './controllers/login.js'
+import { loginRouter } from './controllers/jwt-login.js'
 // const loginRouter = require('.controllers/login')
 
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
-import { usersRouter } from './controllers/users.js'
-import { fileController } from './controllers/file.controller.mjs'
+import { usersRouter } from './controllers/new-user.js'
+import { fileController } from './controllers/upload-google.mjs'
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -189,20 +189,17 @@ usersRouter.get('/', async (request, response) => {
 
 app.get('/', (request, response) => {
   const numberOfCookiesInStock = 40
-
   response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
   nameOfPage: "Cookieshop",
   numberOfCookiesSold: 267,
-  fileToPlay: fileToPlay,
   publicAudioUrl: fileController.publicAudioUrl
 })
-  console.log("fileToPlay is " + fileToPlay.metadata.selfLink)
+  console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
 })
 
 app.get('/news', async (request, response) => {
   try{
     const news = await NewsItem.find({}).exec()
-
     response.render('news/index', {
       news: news
     })
@@ -217,7 +214,6 @@ app.get('/news', async (request, response) => {
 app.get('/cookies', async (request,response) => {
   try{
     const cookies = await Cookie.find({}).exec()
-
     response.render('cookies/index', { 
       cookies: cookies,
       readablePrice: readablePrice

@@ -1,4 +1,4 @@
-import { storage } from "../controllers/file.controller.mjs"
+import { storage } from "../controllers/upload-google.mjs"
 
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
