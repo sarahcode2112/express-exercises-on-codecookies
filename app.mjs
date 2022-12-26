@@ -3,6 +3,8 @@ import { initRoutes } from './routes/index.mjs'
 // commenting out the below line can turn on or off an await-related error, when Jest testing:
 import { fileToPlay } from './helpers/audio-file-finder.js'
 
+import { passReq } from './middlewares/pass-req.js'
+
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
@@ -30,9 +32,6 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-
-
-
 // apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
 import cors from 'cors'
 
@@ -49,7 +48,6 @@ import { readablePrice } from './helpers/readable-price.js'
 import User from './user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
-
 
 import { loginRouter } from './controllers/login.js'
 // const loginRouter = require('.controllers/login')
@@ -124,8 +122,8 @@ app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 }))
 
-
-
+// passes request data to all pages, so data can be used when views and templates are rendering pages:
+app.use('/', passReq);
 
 app.use(logger)
 

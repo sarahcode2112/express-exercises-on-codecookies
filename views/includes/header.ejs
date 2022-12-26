@@ -2,13 +2,45 @@
     <h1>Fake Cookie Shop and Real Audio File Uploader/Player</h1>
 
     <nav>
-      <a href="/">Home</a>&nbsp;|&nbsp;
-      <a href="/about">About</a>&nbsp;|&nbsp;
-      <a href="/cookies">Shop</a>,&nbsp;<a href="/cookies/new">Add Cookies</a>&nbsp;|&nbsp;
-      <a href="/news">News</a>,&nbsp;<a href="/news/new">Add News</a> 
+      <a href="/">Home</a>
         &nbsp;|&nbsp;
+
+      <a href="/about">About</a>
+        &nbsp;|&nbsp;
+
+      <a href="/cookies">Shop</a>
+        <% if (req.isAuthenticated()) { %>
+          ,&nbsp;
+          <a href="/cookies/new">Add Inventory</a>
+          &nbsp;|&nbsp;
+        <% } else { %>
+          &nbsp;|&nbsp;
+        <% } %>
+
+      <a href="/news">News</a>
+        <% if (req.isAuthenticated()) { %>
+          ,&nbsp; 
+          <a href="/news/new">Add News</a> 
+          &nbsp;|&nbsp;
+        <% } else { %>
+          &nbsp;|&nbsp;
+        <% } %>
+        
       <a href="/contact">Contact</a>
     </nav>
+    
+
+    <% if (req.isAuthenticated()) { %>
+      <br>
+      <div>
+        Welcome, <%= req.user.username %>! You are logged in.
+        <a href="/logout">Logout</a>
+      </div>
+    <% } else { %>
+      <div>
+        <a href="/login">Login</a>
+      </div>
+    <% } %>
 
     <hr>
   </header>
