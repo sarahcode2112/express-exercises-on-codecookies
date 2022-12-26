@@ -286,8 +286,8 @@ app.post('/contact', (request, response) => {
 app.post(
   '/cookies', 
   body('priceInCents').isInt(),
-  body('slug').isString().isLength({ max: 150 }).isSlug(),
-  body('name').isString().isLength({ max: 150 }),
+  body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
+  body('name').isString().isLength({ max: 150 }).escape().trim(),
   async (request, response) => {
     console.log(JSON.stringify(request.body))
 
