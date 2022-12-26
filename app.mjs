@@ -25,7 +25,6 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }))
 
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(process.env.PORT, async () => {
     await console.log(`The server has started running on port ${process.env.PORT}`)
@@ -44,8 +43,8 @@ import { logger } from './middlewares/logger.js'
 
 import { readablePrice } from './helpers/readable-price.js'
 
-import { Cookie } from './models/cookie'
-import { NewsItem } from './models/news'
+import { Cookie } from './models/cookie.js'
+import { NewsItem } from './models/news.js'
 
 import User from './user.js'
 // this line above used to be what is below: 
