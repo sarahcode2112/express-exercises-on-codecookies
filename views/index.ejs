@@ -32,44 +32,47 @@
         </p>
     <br />
 
-    <h3>Admin login form:</h3>
+    
     <form action="/login" method="POST">
+        <h3>Admin login</h3>
         <input type="text" name="username" placeholder="username" /><br />
         <input type="password" name="password" placeholder="password" /><br />
-        <button>Send</button>
+        <button>Login</button>
     </form>
     <br />
 
-    <h3>New user form:</h3>
     <form action ="/add-user" method="POST">
-        <input type="text" name="username" placeholder="username" /><br />
-        <input type="password" name="password" placeholder="password" /> <br />
-        <button>Send</button>
+        <h3>Create new user</h3>
+        <input type="text" name="username" placeholder="username" /><br/>
+        <input type="password" name="password" placeholder="password" /> <br/>
+        <button>Create</button>
     </form>
 
-    <h3> Upload audio to local storage: </h3>
+    
     <form action="/upload" method="POST" enctype="multipart/form-data">
+        <h3> Upload audio to local storage: </h3>
         <input type="file" name="file" placeholder="File to upload" />
-        <input type="submit">
+        <button>Upload</button>
     </form>
 
-    <h3> Upload audio to Google Cloud Storage:</h3>
-        <form 
-            action="/upload2" 
-            method="POST" 
-            enctype="multipart/form-data"
-        >
-            <input 
-                type="file" 
-                name="audiofile.mp3" 
-                accept=".mp3" 
-                placeholder="Audio file to upload" 
-            />
-            <input type="submit">
-        </form>
+    
+    <form 
+        action="/upload2" 
+        method="POST" 
+        enctype="multipart/form-data"
+    >
+        <h3> Upload audio to Google Cloud:</h3>
+        <input 
+            type="file" 
+            name="audiofile.mp3" 
+            accept=".mp3" 
+            placeholder="Audio file to upload" 
+        />
+        <button>Upload</button>
+    </form>
 
     <div id="audio-player">
-    <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
+    <h3>Play the audio you uploaded to Google Cloud:</h3>
     <audio controls src="<%= publicAudioUrl %>" type="audio">
     </audio>
     </div>
