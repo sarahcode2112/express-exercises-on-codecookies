@@ -294,9 +294,13 @@ app.post(
     try{
       validationResult(request).throw()
 
+
+      console.log(request.body.description)
+      
       const cookie = new Cookie({
         slug: request.body.slug,
         name: request.body.name,
+        description: request.body.description,
         priceInCents: request.body.priceInCents
       })
       await cookie.save()
