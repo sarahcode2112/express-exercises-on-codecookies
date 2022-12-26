@@ -45,6 +45,8 @@ import { logger } from './middlewares/logger.js'
 
 import { readablePrice } from './helpers/readable-price.js'
 
+import { Cookie } from './models/cookie'
+
 import User from './user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
@@ -68,17 +70,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.set('view engine', 'ejs')
-
-
-const cookieSchema = new mongoose.Schema({
-  slug: { type: String, unique: true, required: true},
-  name: { type: String, required: true },
-  priceInCents: { type: Number, required: true },
-  description: { type: String, default: 'no description'},
-  isInStock: { type: Boolean, default: true, required: true }
-})
-
-const Cookie = mongoose.model('Cookie', cookieSchema)
 
 const newsItemSchema = new mongoose.Schema({
   // I don't know if my 'untitled' thing works as envisioned, but I wanted to try it:
