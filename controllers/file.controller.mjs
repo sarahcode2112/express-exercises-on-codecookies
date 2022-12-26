@@ -6,11 +6,13 @@ export const storage = new Storage({ keyFilename: "google-cloud-key.json" })
 
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
-const upload = async (request, response) => {
+const fileController = { 
+
+upload: async (request, response) => {
     try {
         await processFileMiddleware(request, response)
 
-        console.log(request.file)
+        console.log("file.controller says file uploaded's original name is: " + request.file.originalname)
 
         if (!request.file) {
             return response.status(400).send({ message: "No file available to upload." })
@@ -19,12 +21,14 @@ const upload = async (request, response) => {
         // deletes previous files, so that user can only have one uploaded file in the database at a time. must use '%2F' instead of '/' to make it work.
         const deleteableFolderName = 'deleteable'
         const files = await bucket.getFiles()
-        console.log(files)
+
         const deleteableFiles = files[0].filter(f => f.id.includes(deleteableFolderName + '%2F'))
+
         deleteableFiles.forEach(async file => {
             await file.delete()
         })
 
+        // writes the file to the right place in google cloud bucket
         const blob = bucket.file('deleteable/' + request.file.originalname)
         const blobStream = blob.createWriteStream({ 
             resumable: false
@@ -36,9 +40,10 @@ const upload = async (request, response) => {
 
         // makes a url that can be used to directly access the uploaded file
         blobStream.on("finish", async (data) => {
-            const publicUrl = format(
+            const publicAudioUrl = format(
                 `https://storage.googleapis.com/${bucket.name}/${blob.name}`
-            )
+            );
+            fileController.publicAudioUrl = publicAudioUrl;
 
             // makes the file public.  may be unnecessary for my project.
             try {
@@ -47,13 +52,13 @@ const upload = async (request, response) => {
                 return response.status(500).send({
                     message: 
                         `File upload worked for ${request.file}, but public access did not work.`,
-                    url: publicUrl
+                    url: publicAudioUrl
                 })
             }
             
             response.status(200).send({
                 message: "Upload successful of " + request.file.fieldname,
-                url: publicUrl
+                url: publicAudioUrl
             })
         })
         blobStream.end(request.file.buffer)
@@ -71,16 +76,9 @@ const upload = async (request, response) => {
     }
 }
 
-const getListFiles = async (request, response) => {
-
-}
-
-const download = async (request, response) => {
 
 }
 
 export {
-    upload,
-    getListFiles,
-    download
+    fileController
 }

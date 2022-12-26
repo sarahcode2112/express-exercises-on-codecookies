@@ -40,3 +40,8 @@ body {
     flex-wrap: wrap;
     justify-content: center
 }
+
+.logged-in-message {
+    padding-top: 10px;
+    padding-left: 10px
+}

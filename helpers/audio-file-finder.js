@@ -2,7 +2,7 @@ import { storage } from "../controllers/file.controller.mjs"
 
 const bucket = storage.bucket("music-self-recording-file-uploads")
 
-// new stuff I just tried, which maybe breaks something:
+// new stuff, which may break something:
 const getFiles = async () => {
     let files
     files = await bucket.getFiles()
@@ -20,7 +20,7 @@ const main = async () => {
 
     const fileToPlay = files[0].filter(f => f.id.includes(deleteableFolderName + '%2F'))[0]
 
-    // console.log("fileToPlay is " + fileToPlay.metadata.selfLink)
+    console.log("for audio-file-finder: fileToPlay is " + fileToPlay.metadata.selfLink)
 
     return fileToPlay
 }

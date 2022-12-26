@@ -54,6 +54,7 @@ import { loginRouter } from './controllers/login.js'
 
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/users.js'
+import { fileController } from './controllers/file.controller.mjs'
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
@@ -162,7 +163,12 @@ app.get('/react', async (request, response) => {
 })
 
 app.get('/dashboard', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
-  response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} <a href="/logout">Log Out (return to home page)</a> <br></br> <a href="/secret">Members Only</a>`)
+  response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} 
+  <a href="/">Home page</a> 
+  <br></br> 
+  <a href="/logout">Log Out</a> 
+  <br></br>  
+  <a href="/secret">Secret page for logged-in users only</a>`)
 })
 
 app.get('/secret', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
@@ -187,7 +193,8 @@ app.get('/', (request, response) => {
   response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
   nameOfPage: "Cookieshop",
   numberOfCookiesSold: 267,
-  fileToPlay: fileToPlay
+  fileToPlay: fileToPlay,
+  publicAudioUrl: fileController.publicAudioUrl
 })
   console.log("fileToPlay is " + fileToPlay.metadata.selfLink)
 })

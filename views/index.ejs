@@ -29,7 +29,7 @@
 
     <br />
 
-    <h3>Login form:</h3>
+    <h3>Admin login form:</h3>
     <form action="/login" method="POST">
         <input type="text" name="username" placeholder="username" /><br />
         <input type="text" name="password" placeholder="password" /><br />
@@ -52,10 +52,19 @@
     </form>
 
     <h3> Upload audio to Google Cloud Storage:</h3>
-    <form action="/upload2" method="POST" enctype="multipart/form-data">
-        <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload" />
-        <input type="submit">
-    </form>
+        <form 
+            action="/upload2" 
+            method="POST" 
+            enctype="multipart/form-data"
+        >
+            <input 
+                type="file" 
+                name="audiofile.mp3" 
+                accept=".mp3" 
+                placeholder="Audio file to upload" 
+            />
+            <input type="submit">
+        </form>
 
     <h3>Play the audio you uploaded to Google Cloud Storage:</h3>
     <audio controls src="<%= fileToPlay.metadata.mediaLink %>" type="audio">
