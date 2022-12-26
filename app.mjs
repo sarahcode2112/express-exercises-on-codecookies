@@ -45,6 +45,7 @@ import { logger } from './middlewares/logger.js'
 import { readablePrice } from './helpers/readable-price.js'
 
 import { Cookie } from './models/cookie'
+import { NewsItem } from './models/news'
 
 import User from './user.js'
 // this line above used to be what is below: 
@@ -69,15 +70,6 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.set('view engine', 'ejs')
-
-const newsItemSchema = new mongoose.Schema({
-  // I don't know if my 'untitled' thing works as envisioned, but I wanted to try it:
-  title: { type: String, default: 'Untitled', unique: true, required: true },
-  content: { type: String, required: true },
-  date: { type: Number, required: true }
-})
-
-const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 
 const numberOfCookiesSold = 268
 
