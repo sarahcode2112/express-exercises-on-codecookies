@@ -13,23 +13,17 @@ describe('Test banana route', () => {
     let server
 
     beforeEach(() => {
-        jest.resetModules();
         server = app.listen(3000)
-        server.close()
         // const app = express()
-        
     })
 
-    afterEach(() => {
+    afterAll(() => {
         server.close()
         mongoose.connection.close()
     })
 
     test('It should return an error', async () => {
-        
-        debugger
-        
-        const response = await request(app).get('/cookies/banana')
+        const response = await supertest(app).get('/cookies/banana')
         expect(response.statusCode).toBe(404)
 
         // return await supertest(app)
@@ -37,7 +31,7 @@ describe('Test banana route', () => {
         //     .then(response => {
         //         expect(response.text).toContain('Cookieshop')
         //     })
-    }, 100000)
+    })
 })
             
     
