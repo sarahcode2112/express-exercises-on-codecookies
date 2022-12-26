@@ -32,7 +32,6 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-// apparently i could put this above const app = express(), according to bezkoder tutorial. i wonder what else i can put above that. what's the right order?
 import cors from 'cors'
 
 import morgan from 'morgan'
