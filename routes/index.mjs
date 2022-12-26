@@ -1,6 +1,6 @@
 import express from 'express'
 const router = express.Router()
-import { fileController } from '../controllers/file.controller.mjs'
+import { fileController } from '../controllers/upload-google.mjs'
 
 export let initRoutes = (app) => {
     router.post("/upload2", fileController.upload)

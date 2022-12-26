@@ -75,8 +75,6 @@ upload: async (request, response) => {
         })
     }
 }
-
-
 }
 
 export {
