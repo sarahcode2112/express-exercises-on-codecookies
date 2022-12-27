@@ -42,3 +42,13 @@ body {
 #audio-player {
     display: none
 }
+
+.news-article {
+    padding: 25px; 
+    margin-bottom: 20px;
+    box-shadow: -10px -10px 10px -5px rgba(0, 0, 0, 0.364);
+}
+
+.news-article > h3 {
+    margin-block-start: 0;
+}
