@@ -10,12 +10,14 @@
     <p id="news-intro-sentence">Take a leisurely read through our expertly-curated recent news articles:</p>
     <ul>
       <% news.forEach(newsItem => { %>
-        <div class="news-article">
-            <h3> <%= titleCase(newsItem.title) %> </h3>
+        <article class="news-article">
+          <header>
+            <h3 class="news-article-title"> <%= titleCase(newsItem.title) %> </h3>
             <p> <em> Date uploaded: <%= newsItem.date %> </em> </p>
-            <p> <%= newsItem.content %> </p>
-            <br>
-        </div>
+          </header>
+          <p> <%= newsItem.content %> </p>
+          <br>
+        </article>
       <% }) %>
     </ul>
   </main>
