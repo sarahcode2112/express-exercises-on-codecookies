@@ -52,7 +52,6 @@ import User from './user.js'
 // import { User } from './models/user.js'
 
 import { loginRouter } from './controllers/jwt-login.js'
-// const loginRouter = require('.controllers/login')
 
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/new-user.js'
