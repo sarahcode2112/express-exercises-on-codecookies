@@ -2,9 +2,7 @@
 import { initRoutes } from './routes/index.mjs'
 
 import { passReq } from './middlewares/pass-req.js'
-
 import { body, validationResult } from 'express-validator'
-
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
@@ -33,27 +31,17 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 import cors from 'cors'
-
 import morgan from 'morgan'
-
 import jwt from 'jsonwebtoken'
-
 import mongoose from 'mongoose'
-
 import { logger } from './middlewares/logger.js'
-
 import { readablePrice } from './helpers/readable-price.js'
-
 import { Cookie } from './models/cookie.js'
 import { NewsItem } from './models/news.js'
-
 import User from './user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
-
 import { loginRouter } from './controllers/jwt-login.js'
-// const loginRouter = require('.controllers/login')
-
 // defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/new-user.js'
 import { fileController } from './controllers/upload-google.mjs'
