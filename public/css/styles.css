@@ -52,3 +52,7 @@ body {
 .news-article > h3 {
     margin-block-start: 0;
 }
+
+#news-intro-sentence {
+    margin:  30px 15px
+}
