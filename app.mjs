@@ -1,6 +1,4 @@
-// for file uploading route:
 import { initRoutes } from './routes/index.mjs'
-
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
 import 'dotenv/config'
