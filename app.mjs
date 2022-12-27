@@ -15,19 +15,6 @@ import connectEnsureLogin from 'connect-ensure-login'
 
 export const app = express()
 
-app.use(session({
-  secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
-}))
-
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(process.env.PORT, async () => {
-    await console.log(`The server has started running on port ${process.env.PORT}`)
-  })
-}
-
 import cors from 'cors'
 import morgan from 'morgan'
 import jwt from 'jsonwebtoken'
@@ -44,6 +31,18 @@ import { loginRouter } from './controllers/jwt-login.js'
 import { usersRouter } from './controllers/new-user.js'
 import { fileController } from './controllers/upload-google.mjs'
 
+app.use(session({
+  secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
+}))
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(process.env.PORT, async () => {
+    await console.log(`The server has started running on port ${process.env.PORT}`)
+  })
+}
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
