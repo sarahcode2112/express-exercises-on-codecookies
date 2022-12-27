@@ -24,26 +24,24 @@
             We have sold <%= numberOfCookiesSold %> cookies.
         </p>
         
-        <% if (req.isAuthenticated()) {
-        %>
-        <br>
-        <h3>Admin-only information:</h3>
-        <p>
-            You can try this unadvertised GET request: /assets/react.html. 
-            
-            These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. Instead of that jwt system, I currently use these simpler routes: /add-user and /login
-        </p>
+        <% if (req.isAuthenticated()) { %>
+            <br>
+            <h3>Admin-only information:</h3>
+                <p>
+                    You can try this unadvertised GET request: /assets/react.html. 
+                </p>    
+                <p>
+                    These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. (Instead of that jwt system, a non-jwt system currently handles user creation and login at these routes: /add-user and /login.)
+                </p>
+                <form action ="/add-user" method="POST">
+                    <h3>Create new admin user</h3>
+                    <input type="text" name="username" placeholder="username" /><br/>
+                    <input type="password" name="password" placeholder="password" /> <br/>
+                    <button>Create</button>
+                </form>
         <% } %>
-
     <br />
 
-    <form action ="/add-user" method="POST">
-        <h3>Create new admin user</h3>
-        <input type="text" name="username" placeholder="username" /><br/>
-        <input type="password" name="password" placeholder="password" /> <br/>
-        <button>Create</button>
-    </form>
-    
     <form action="/upload" method="POST" enctype="multipart/form-data">
         <h3> Upload audio to local storage: </h3>
         <input type="file" name="file" placeholder="File to upload"/>
