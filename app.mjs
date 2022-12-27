@@ -11,6 +11,7 @@ import fileUpload from 'express-fileupload'
 import UserDetails from './user.js'
 import session from 'express-session'
 import bodyParser from 'body-parser'
+import { titleCase } from './helpers/title-case.js'
 
 // login tutorial dependencies:
 import passport from 'passport'
@@ -183,7 +184,8 @@ app.get('/news', async (request, response) => {
   try{
     const news = await NewsItem.find({}).exec()
     response.render('news/index', {
-      news: news
+      news: news,
+      titleCase: titleCase
     })
   }catch(error) {
     console.error(error)

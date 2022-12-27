@@ -11,7 +11,7 @@
     <ul>
       <% news.forEach(newsItem => { %>
         <div class="news-article">
-            <h3> <%= newsItem.title %> </h3>
+            <h3> <%= titleCase(newsItem.title) %> </h3>
             <p> <em> Date uploaded: <%= newsItem.date %> </em> </p>
             <p> <%= newsItem.content %> </p>
             <br>
