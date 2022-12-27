@@ -155,6 +155,10 @@ usersRouter.get('/', async (request, response) => {
   response.json(users)
 })
 
+app.get('/login', (response) => {
+  response.render('login')
+})
+
 app.get('/', (request, response) => {
   const numberOfCookiesInStock = 40
   response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,

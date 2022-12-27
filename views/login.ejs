@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('includes/head', {title: 'Admin Login | Cookieshop'}) %>
+<body>
+    <%- include('includes/header') %>
+    <main>
+        <form action="/login" method="POST">
+            <h3>Admin Login</h3>
+            <input type="text" name="username" placeholder="username" /><br />
+            <input type="password" name="password" placeholder="password" /><br />
+            <button>Login</button>
+        </form>
+    </main>
+    <%- include('includes/footer') %>
+</body>
+</html>
