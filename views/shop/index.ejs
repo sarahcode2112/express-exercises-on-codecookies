@@ -10,7 +10,7 @@
     <p>Admins can add a new CD at /shop/new.</p>
     <h3>Our current offerings:</h3>
     <ul>
-      <% cookies.forEach(cookie => { %>
+      <% cDs.forEach(cookie => { %>
         <li>
           <% if(cookie.isInStock) { %> 
             <a href="/shop/<%= cookie.slug %>"><%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %></a>
