@@ -57,7 +57,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.set('view engine', 'ejs')
 
-const numberOfCookiesSold = 268
+const numberOfCDsSold = 268
 
 // Using localhost:8081 based on tutorial:
 let corsOptions = {
@@ -163,7 +163,7 @@ app.get('/', (request, response) => {
   const numberOfCDsInStock = 40
   response.render('index', {numberOfCDsInStock: numberOfCDsInStock,
   nameOfPage: "Cookieshop",
-  numberOfCookiesSold: 267,
+  numberOfCDsSold: 267,
   publicAudioUrl: fileController.publicAudioUrl,
 })
   console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
@@ -226,7 +226,7 @@ app.get('/cookies/:slug', async (request, response) => {
 })
 
 app.get('/about', (request, response) => {
-  response.render('about', {numberOfCookiesSold: numberOfCookiesSold})
+  response.render('about', {numberOfCDsSold: numberOfCDsSold})
 })
 
 app.get('/contact', (request, response) => {

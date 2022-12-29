@@ -983,7 +983,7 @@ const newsItemSchema = new mongoose.Schema({
 &nbsp;
 const NewsItem = mongoose.model('NewsItem', newsItemSchema)
 &nbsp;
-const numberOfCookiesSold = 268
+const numberOfCDsSold = 268
 &nbsp;
 &nbsp;
 // I don't know why localhost:8081 is used, that's just what the tutorial said.
@@ -1113,7 +1113,7 @@ app.get('/', <span class="fstat-no" title="function not covered" >(r</span>eques
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  response.render('index', {numberOfCDsInStock: numberOfCDsInStock,</span>
   nameOfPage: "Cookieshop",
-  numberOfCookiesSold: 267,
+  numberOfCDsSold: 267,
   fileToPlay: fileToPlay
 })
 <span class="cstat-no" title="statement not covered" >  console.log("fileToPlay is " + fileToPlay.metadata.selfLink)</span>
@@ -1178,7 +1178,7 @@ app.get('/cookies/:slug', <span class="fstat-no" title="function not covered" >a
 &nbsp;
 &nbsp;
 app.get('/about', <span class="fstat-no" title="function not covered" >(r</span>equest, response) =&gt; {
-<span class="cstat-no" title="statement not covered" >  response.render('about', {numberOfCookiesSold: numberOfCookiesSold})</span>
+<span class="cstat-no" title="statement not covered" >  response.render('about', {numberOfCDsSold: numberOfCDsSold})</span>
 })
 &nbsp;
 app.get('/contact', <span class="fstat-no" title="function not covered" >(r</span>equest, response) =&gt; {
