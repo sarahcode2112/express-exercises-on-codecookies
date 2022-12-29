@@ -184,44 +184,44 @@ app.get('/news', async (request, response) => {
   }
 })
 
-app.get('/cookies', async (request,response) => {
+app.get('/shop', async (request,response) => {
   try{
     const cookies = await Cookie.find({}).exec()
-    response.render('cookies/index', { 
+    response.render('shop/index', { 
       cookies: cookies,
       readablePrice: readablePrice
     })
   }catch(error) {
     console.error(error)
-    response.render('cookies/index', {
+    response.render('shop/index', {
       cookies: [],
       readablePrice: readablePrice
     })
   }
 })
 
-app.get('/cookies/new', (request, response) => {
-  response.render('cookies/new')
+app.get('/shop/new', (request, response) => {
+  response.render('shop/new')
 })
 
 app.get('/news/new', (request, response) => {
   response.render('news/new')
 })
 
-app.get('/cookies/:slug', async (request, response) => {
+app.get('/shop/:slug', async (request, response) => {
   try {
     const slug = request.params.slug
     const cookie = await Cookie.findOne({ slug: slug }).exec()
-    if(!cookie) throw new Error('Cookie not found')
+    if(!cookie) throw new Error('CD not found')
 
-    response.render('cookies/show', {
+    response.render('shop/show', {
       cookie: cookie,
       readablePrice: readablePrice
     })
 
   } catch(error) {
     console.error(error)
-    response.status(404).send('Could not find the cookie you\'re looking for.')
+    response.status(404).send('Could not find the CD you\'re looking for.')
   }
 })
 

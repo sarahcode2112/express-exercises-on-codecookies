@@ -13,7 +13,7 @@
       <% cookies.forEach(cookie => { %>
         <li>
           <% if(cookie.isInStock) { %> 
-            <a href="/cookies/<%= cookie.slug %>"><%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %></a>
+            <a href="/shop/<%= cookie.slug %>"><%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %></a>
           <% } else { %>
             <%= cookie.name %> [SOLD OUT] 
           <% } %>
