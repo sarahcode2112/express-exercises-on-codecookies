@@ -21,7 +21,7 @@ import jwt from 'jsonwebtoken'
 import mongoose from 'mongoose'
 import { logger } from './middlewares/logger.js'
 import { readablePrice } from './helpers/readable-price.js'
-import { Cookie } from './models/cookie.js'
+import { CD } from './models/cd.js'
 import { NewsItem } from './models/news.js'
 import User from './user.js'
 // this line above used to be what is below: 
@@ -186,15 +186,15 @@ app.get('/news', async (request, response) => {
 
 app.get('/shop', async (request,response) => {
   try{
-    const cookies = await Cookie.find({}).exec()
+    const cDs = await CD.find({}).exec()
     response.render('shop/index', { 
-      cookies: cookies,
+      cDs: cDs,
       readablePrice: readablePrice
     })
   }catch(error) {
     console.error(error)
     response.render('shop/index', {
-      cookies: [],
+      cDs: [],
       readablePrice: readablePrice
     })
   }
@@ -211,11 +211,11 @@ app.get('/news/new', (request, response) => {
 app.get('/shop/:slug', async (request, response) => {
   try {
     const slug = request.params.slug
-    const cookie = await Cookie.findOne({ slug: slug }).exec()
-    if(!cookie) throw new Error('CD not found')
+    const cD = await CD.findOne({ slug: slug }).exec()
+    if(!cD) throw new Error('CD not found')
 
     response.render('shop/show', {
-      cookie: cookie,
+      cD: cD,
       readablePrice: readablePrice
     })
 
@@ -275,7 +275,7 @@ app.post('/contact', (request, response) => {
 })
 
 app.post(
-  '/cookies', 
+  '/shop', 
   body('priceInCents').isInt(),
   body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
   body('name').isString().isLength({ max: 150 }).escape().trim(),
@@ -288,18 +288,18 @@ app.post(
 
       console.log(request.body.description)
       
-      const cookie = new Cookie({
+      const cD = new CD({
         slug: request.body.slug,
         name: request.body.name,
         description: request.body.description,
         priceInCents: request.body.priceInCents
       })
-      await cookie.save()
+      await cD.save()
 
-      response.send(`Cookie Created. You can view <a href="/cookies/${request.body.slug}"> its new webpage </a>.`)
+      response.send(`CD Created. You can view <a href="/shop/${request.body.slug}"> its new webpage </a>.`)
     }catch (error) {
       console.error(error)
-      response.send('Error: Unable to create your cookie.')
+      response.send('Error: Unable to create your CD.')
     }
 })
 
