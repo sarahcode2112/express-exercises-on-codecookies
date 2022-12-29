@@ -160,8 +160,8 @@ app.get('/login', (response) => {
 })
 
 app.get('/', (request, response) => {
-  const numberOfCookiesInStock = 40
-  response.render('index', {numberOfCookiesInStock: numberOfCookiesInStock,
+  const numberOfCDsInStock = 40
+  response.render('index', {numberOfCDsInStock: numberOfCDsInStock,
   nameOfPage: "Cookieshop",
   numberOfCookiesSold: 267,
   publicAudioUrl: fileController.publicAudioUrl,
