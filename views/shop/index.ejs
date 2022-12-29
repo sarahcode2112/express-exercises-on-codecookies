@@ -10,12 +10,12 @@
     <p>Admins can add a new CD at /shop/new.</p>
     <h3>Our current offerings:</h3>
     <ul>
-      <% cDs.forEach(cookie => { %>
+      <% cDs.forEach(cD => { %>
         <li>
-          <% if(cookie.isInStock) { %> 
-            <a href="/shop/<%= cookie.slug %>"><%= cookie.name %>: <%= readablePrice(cookie.priceInCents) %></a>
+          <% if(cD.isInStock) { %> 
+            <a href="/shop/<%= cD.slug %>"><%= cD.name %>: <%= readablePrice(cD.priceInCents) %></a>
           <% } else { %>
-            <%= cookie.name %> [SOLD OUT] 
+            <%= cD.name %> [SOLD OUT] 
           <% } %>
         </li>
       <% }) %>
