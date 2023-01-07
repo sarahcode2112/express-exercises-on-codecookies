@@ -238,6 +238,17 @@ app.get('/shop/:slug/edit', async (request, response) => {
   }
 })
 
+app.get('/shop/:slug/delete', async (request, response) => {
+  try {
+    await CD.findOneAndDelete({ slug: request.params.slug })
+    
+    response.redirect('/shop')
+  }catch (error) {
+    console.error(error)
+    response.send('Error: No CD was deleted. It may be because the slug did not match a CD in our database.')
+  }
+})
+
 app.get('/about', (request, response) => {
   response.render('about', {numberOfCDsSold: numberOfCDsSold})
 })
