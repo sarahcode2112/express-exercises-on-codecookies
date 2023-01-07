@@ -276,15 +276,14 @@ app.post('/contact', (request, response) => {
 
 app.post(
   '/shop', 
-  body('priceInCents').isInt(),
-  body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
   body('name').isString().isLength({ max: 150 }).escape().trim(),
+  body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
+  body('priceInCents').isInt(),
   async (request, response) => {
     console.log(JSON.stringify(request.body))
 
     try{
       validationResult(request).throw()
-
 
       console.log(request.body.description)
       
