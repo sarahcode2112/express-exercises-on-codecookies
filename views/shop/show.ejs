@@ -16,7 +16,13 @@
     <p> Price: <%= readablePrice(cD.priceInCents) %> </p>
 
     <% if (req.isAuthenticated()) { %>
-    <a href="/shop/<%= cD.slug %>/delete">Delete inventory entry (be careful - this cannot be undone!)</a>
+      <a href="/shop/<%= cD.slug %>/edit">Edit inventory entry</a>
+      <br>
+      <br>
+    <% } %>
+
+    <% if (req.isAuthenticated()) { %>
+      <a href="/shop/<%= cD.slug %>/delete">Delete inventory entry (be careful - this cannot be undone!)</a>
     <% } %>
 
     <%- include('../includes/footer') %>
