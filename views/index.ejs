@@ -14,51 +14,53 @@
 <body>
     <%- include('includes/header') %>
     <main>
-        <p>
-            Welcome to this CD shop website, which doubles as a music file uploading/playback website.
-        </p>
-        <p>
-            We currently have <%= numberOfCDsInStock %> CDs in stock.
-        </p>
-        <p>
-            We have sold <%= numberOfCDsSold %> CDs.
-        </p>
-        
-        <% if (req.isAuthenticated()) { %>
+        <section>
+            <p>
+                Welcome to this CD shop website, which doubles as a music file uploading/playback website.
+            </p>
+            <p>
+                We currently have <%= numberOfCDsInStock %> CDs in stock.
+            </p>
+            <p>
+                We have sold <%= numberOfCDsSold %> CDs.
+            </p>
             <br>
+        </section>
+        <% if (req.isAuthenticated()) { %>
+        <section>
             <h3>Admin-only information:</h3>
-                <p>
-                    You can try this unadvertised GET request: /assets/react.html. 
-                </p>    
-                <p>
-                    These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. (Instead of that jwt system, a non-jwt system currently handles user creation and login at these routes: /add-user and /login.)
-                </p>
-                <form action ="/add-user" method="POST">
-                    <h3>Create new admin user</h3>
-                    <input type="text" name="username" placeholder="username" /><br/>
-                    <input type="password" name="password" placeholder="password" /> <br/>
-                    <button>Create</button>
-                </form>
+            <p>
+                You can try this unadvertised GET request: /assets/react.html. 
+            </p>    
+            <p>
+                These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. (Instead of that jwt system, a non-jwt system currently handles user creation and login at these routes: /add-user and /login.)
+            </p>
+            <form action ="/add-user" method="POST">
+                <h3>Create new admin user</h3>
+                <input type="text" name="username" placeholder="username" /><br/>
+                <input type="password" name="password" placeholder="password" /> <br/>
+                <button>Create</button>
+            </form>
+            <br />
+        </section>
         <% } %>
-    <br />
-
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-        <h3> Upload audio to local storage: </h3>
-        <input type="file" name="file" placeholder="File to upload"/>
-        <button>Upload</button>
-    </form>
-    
-    <form action="/upload2" method="POST" enctype="multipart/form-data">
-        <h3> Upload audio to Google Cloud:</h3>
-        <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload"/>
-        <button>Upload</button>
-    </form>
-
-    <div id="audio-player">
-        <h3>Play the audio you uploaded to Google Cloud:</h3>
-        <audio controls src="<%= publicAudioUrl %>" type="audio"></audio>
-    </div>
-
+        <section>
+            <h2>Audio Player Options</h2>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <h3> Upload audio to local storage: </h3>
+                <input type="file" name="file" placeholder="File to upload"/>
+                <button>Upload</button>
+            </form>
+            <form action="/upload2" method="POST" enctype="multipart/form-data">
+                <h3> Upload audio to Google Cloud:</h3>
+                <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload"/>
+                <button>Upload</button>
+            </form>
+            <div id="audio-player">
+                <h3>Play the audio you uploaded to Google Cloud:</h3>
+                <audio controls src="<%= publicAudioUrl %>" type="audio"></audio>
+            </div>
+        </section>
     </main>
 
     <%- include('includes/footer') %>
