@@ -298,7 +298,7 @@ app.post(
       response.send(`CD Created. You can view <a href="/shop/${request.body.slug}"> its new webpage </a>.`)
     }catch (error) {
       console.error(error)
-      response.send('Error: Unable to create your CD.')
+      response.send('Error: Unable to create your CD. (It may be because the inputs did not pass validation.)')
     }
 })
 
