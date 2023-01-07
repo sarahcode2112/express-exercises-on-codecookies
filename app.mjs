@@ -162,7 +162,6 @@ app.get('/login', (request, response) => {
 app.get('/', (request, response) => {
   const numberOfCDsInStock = 40
   response.render('index', {numberOfCDsInStock: numberOfCDsInStock,
-  nameOfPage: "Cookieshop",
   numberOfCDsSold: 267,
   publicAudioUrl: fileController.publicAudioUrl,
 })
