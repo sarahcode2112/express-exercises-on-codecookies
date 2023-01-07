@@ -302,20 +302,29 @@ app.post(
     }
 })
 
-app.post('/news', async (request, response) => {
-  try{
-    const newsItem = new NewsItem({
-      title: request.body.title,
-      content: request.body.content,
-      date: request.body.date
-    })
-    await newsItem.save()
+app.post(
+  '/news', 
+  body('title').isString().isLength({ max: 150 }).escape().trim(),
+  body('content').isString().isLength({ max: 150000 }).isSlug().escape().trim(),
+  body('date').isLength({ max: 50 }).escape().trim(),
+  async (request, response) => {
+    console.log(JSON.stringify(request.body))
 
-    response.send('News Item Created')
-  }catch (error) {
-    console.error(error)
-    response.send('Error: The news item could not be created.')
-  }
+    try{
+      validationResult(request).throw()
+
+      const newsItem = new NewsItem({
+        title: request.body.title,
+        content: request.body.content,
+        date: request.body.date
+      })
+      await newsItem.save()
+
+      response.send('News Item Created')
+    }catch (error) {
+      console.error(error)
+      response.send('Error: The news item could not be created. It may be because the inputs did not pass validation.')
+    }
 })
 
 // seems unecessary
