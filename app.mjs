@@ -221,7 +221,20 @@ app.get('/shop/:slug', async (request, response) => {
 
   } catch(error) {
     console.error(error)
-    response.status(404).send('Could not find the CD you\'re looking for.')
+    response.status(404).send('We could not find the CD you\'re seeking.')
+  }
+})
+
+app.get('/shop/:slug/edit', async (request, response) => {
+  try {
+    const slug = request.params.slug
+    const cD = await CD.findOne({ slug: slug }).exec()
+    if(!cD) throw new Error('CD not found')
+
+    response.render('shop/edit', { cD: cD })
+  }catch(error) {
+    console.error(error)
+    response.status(404).send('We could not find the CD you\'re seeking.')
   }
 })
 
@@ -300,6 +313,21 @@ app.post(
       console.error(error)
       response.send('Error: Unable to create your CD. (It may be because the inputs did not pass validation.)')
     }
+})
+
+app.post('/shop/:slug', async (request, response) => {
+  try {
+    const cD = await CD.findOneAndUpdate(
+      { slug: request.params.slug }, 
+      request.body,
+      { new: true }
+    )
+    
+    response.redirect(`/shop/${cD.slug}`)
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The CD could not be edited.')
+  }
 })
 
 app.post(

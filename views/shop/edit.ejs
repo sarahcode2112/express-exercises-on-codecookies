@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../includes/head', {title: "New Inventory | CD Shop"}) %>
+<body>
+    <%- include('../includes/header') %>
+
+    <main>
+        <h2>Edit a CD</h2>
+
+        <form action="/shop/<%= cD.slug %>" method="POST">
+            <label>Name</label>
+            <input type="text" value="<%= cD.name %>" name="name" placeholder="Name" /><br />
+            <label>Slug</label>
+            <input type="text" value="<%= cD.slug %>" name="slug" placeholder="Slug" required /><br />
+            <label>Description</label>
+            <input type="text" name="description" value="<%= cD.description %>" placeholder="Description (optional)" /><br />
+            <label>Price in cents</label>
+            <input type="number" value="<%= cD.priceInCents %>" name="priceInCents" placeholder="Price in cents" required min="0" step="1" /><br />
+            <button>Save edit(s)</button>
+        </form>
+    </main>
+
+    <%- include('../includes/footer') %>
+</body>
+</html>
