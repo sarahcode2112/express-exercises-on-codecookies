@@ -20,7 +20,7 @@ usersRouter.post('/', async (request, response) => {
         })
     }
 
-    // creates password (with bcrypt)
+    // creates password hash (with bcrypt)
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(password, saltRounds)
 
