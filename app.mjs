@@ -9,7 +9,7 @@ import session from 'express-session'
 import bodyParser from 'body-parser'
 import { titleCase } from './helpers/title-case.js'
 
-// login tutorial dependencies:
+// passport login method dependencies:
 import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
 
@@ -54,22 +54,22 @@ mongoose.connect(process.env.MONGODB_URI, {
   })
   .catch(error => console.error(error))
 
-
 app.set('view engine', 'ejs')
 
 const numberOfCDsSold = 268
 
+// dependencies for Express fileUploader, according to attacomsian tutorial:
 // Using localhost:8081 based on tutorial:
 let corsOptions = {
   origin: "http://localhost:8081"
 }
-
-// dependencies for Express fileUploader, according to attacomsian tutorial.
 app.use(cors(corsOptions))
 app.use(bodyParser.json())
 
 // below could be a problem. it was extended: true in my original, but in one login tutorial it's extended: false
 app.use(bodyParser.urlencoded({extended: true}))
+
+// for passport login method:
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(User.createStrategy())
@@ -93,20 +93,16 @@ app.use('/', passReq);
 
 app.use(logger)
 
-// useful for setting where to point hrefs, to get static assets like css and js files.
+// sets where hrefs point (to get static assets like css and js files):
 app.use('/assets', express.static('public'))
 
-
 app.use(express.urlencoded({ extended: true }))
-
 app.use(express.json())
 
+// these are for the jwt login method:
 // these two app.use('/api...) things have to come after all other app.use things. Especially after the express.urlencoded thing
 app.use('/api/users', usersRouter)
-
 app.use('/api/login', loginRouter)
-
-
 
 // credit to fullstackopen tutorial for this:
 const getTokenFrom = request => {
