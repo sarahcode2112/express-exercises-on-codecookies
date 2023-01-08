@@ -8,8 +8,8 @@ const bucket = storage.bucket("music-self-recording-file-uploads")
 
 const fileController = { 
 
-// The fact that the URL variable's assignment is built into this upload function, means that the URL of the file is only defined for app.mjs after the user's first time uploading an audio file, during a given session.
-upload: async (request, response) => {
+    upload: async (request, response) => {
+    // Because the URL variable's assignment is built into this upload function: the URL of the file is only defined after the user first uploads an audio file.
     try {
         await processFileMiddleware(request, response)
 
