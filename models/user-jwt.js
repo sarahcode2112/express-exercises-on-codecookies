@@ -1,4 +1,4 @@
-// this whole file is for the jwt method of handling login
+// this whole file handles the jwt method of login
 
 import mongoose from 'mongoose'
 

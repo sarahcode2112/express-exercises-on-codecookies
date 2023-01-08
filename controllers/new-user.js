@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt'
 import express from 'express'
 
 export const usersRouter = express.Router()
-import { User } from '../models/user.js'
+import { User } from '../models/user-jwt.js'
 
 // creates a new user
 usersRouter.post('/', async (request, response) => {
