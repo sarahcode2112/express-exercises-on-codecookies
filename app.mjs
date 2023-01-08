@@ -4,7 +4,7 @@ import { body, validationResult } from 'express-validator'
 import 'dotenv/config'
 import express from 'express'
 import fileUpload from 'express-fileupload'
-import UserDetails from './user.js'
+import UserDetails from './models/user.js'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 import { titleCase } from './helpers/title-case.js'
@@ -23,7 +23,7 @@ import { logger } from './middlewares/logger.js'
 import { readablePrice } from './helpers/readable-price.js'
 import { CD } from './models/cd.js'
 import { NewsItem } from './models/news.js'
-import User from './user.js'
+import User from './models/user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
 import { loginRouter } from './controllers/jwt-login.js'
@@ -66,16 +66,13 @@ let corsOptions = {
 
 // dependencies for Express fileUploader, according to attacomsian tutorial.
 app.use(cors(corsOptions))
-
-
 app.use(bodyParser.json())
+
 // below could be a problem. it was extended: true in my original, but in one login tutorial it's extended: false
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(passport.initialize())
 app.use(passport.session())
-
 passport.use(User.createStrategy())
-
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
@@ -366,6 +363,15 @@ app.post(
     }
 })
 
+app.post('/add-user', async (request, response) => {
+  UserDetails.register({
+    username: request.body.username, active: false }, request.body.password);
+  response
+    .status(200)
+    .send(`Thank you for creating a new Admin user: ${request.body.username} <a href="/">Home page</a> 
+    <br></br> )`)
+})
+
 // seems unecessary
 app.post('/add-cookies', (request, response) => {
   console.log("Cookie form submission: ", request.body)
@@ -374,10 +380,3 @@ app.post('/add-cookies', (request, response) => {
     .json({"Thank you for your cookie submission. It is copied here": request.body})
 })
 
-app.post('/add-user', async (request, response) => {
-  UserDetails.register({
-    username: request.body.username, active: false }, request.body.password);
-  response
-    .status(200)
-    .send("Thank you for creating a new user, " + request.body.username)
-})
