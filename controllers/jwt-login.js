@@ -8,7 +8,7 @@ const loginRouter = express.Router()
 
 export { loginRouter }
 
-import { User } from '../models/user.js'
+import { User } from '../models/user-jwt.js'
 
 // could a problem be that this post request is competing with a post request in my app.js that also goes simply to '/' as the URL?
 loginRouter.post('/', async (request, response) => {
