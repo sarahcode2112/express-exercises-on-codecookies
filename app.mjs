@@ -2,6 +2,9 @@ import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
 import 'dotenv/config'
+export const PORT = process.env.PORT;
+export const MONGODB_URI = process.env.MONGODB_URI;
+import './config/database.js'
 import express from 'express'
 import fileUpload from 'express-fileupload'
 import UserDetails from './models/user.js'
@@ -9,7 +12,7 @@ import session from 'express-session'
 import bodyParser from 'body-parser'
 import { titleCase } from './helpers/title-case.js'
 
-// passport login method dependencies:
+// passportlogin tutorial dependencies:
 import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
 
@@ -44,15 +47,7 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => {
-    if (process.env.NODE_ENV !== 'test') {  console.log('💽 Database connected') 
-    }
-  })
-  .catch(error => console.error(error))
+
 
 app.set('view engine', 'ejs')
 
@@ -368,11 +363,12 @@ app.post('/add-user', async (request, response) => {
     <br></br> )`)
 })
 
-// seems unecessary
+//seems unecessary:
 app.post('/add-cookies', (request, response) => {
   console.log("Cookie form submission: ", request.body)
   response
     .status(200)
     .json({"Thank you for your cookie submission. It is copied here": request.body})
 })
+
 
