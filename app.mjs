@@ -264,6 +264,7 @@ app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), fun
   response.redirect('/dashboard')
 })
 
+// upload locally
 app.post('/upload', async(request,response) => {
   console.log(request.files.file)
   try {
@@ -294,7 +295,7 @@ app.post('/upload', async(request,response) => {
 
 app.post('/contact', (request, response) => {
   console.log('Contact form submission: ', request.body)
-  response.send('Thank you for your message. We will be in touch soon.')
+  response.send('Thank you very much for your message. We will get back to you in the order that messages were received.')
 })
 
 app.post(
