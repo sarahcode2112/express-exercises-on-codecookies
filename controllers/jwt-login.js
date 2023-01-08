@@ -1,4 +1,4 @@
-// all the below was copied from a fullstackopen tutorial, but I understand it:
+// all the below was based very closely on a fullstackopen jwt login tutorial:
 
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
