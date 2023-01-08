@@ -351,10 +351,10 @@ app.post(
       })
       await newsItem.save()
 
-      response.send('News Item Created')
+      response.send(`News Item Created. Back to <a href="/news">News page</a>`)
     }catch (error) {
       console.error(error)
-      response.send('Error: The news item could not be created. It may be because the inputs did not pass validation.')
+      response.send('Error: The news item could not be created. It may be because the inputs did not pass validation, or because the same title already exists.')
     }
 })
 
