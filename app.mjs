@@ -329,11 +329,15 @@ app.post('/shop/:slug', async (request, response) => {
   }
 })
 
+// the validation error messages don't show up yet in the UI, but they're here as a work-in-progress for a future version of the project:
 app.post(
   '/news', 
-  body('title').isString().isLength({ max: 150 }).escape().trim(),
-  body('content').isString().isLength({ max: 150000 }).isSlug().escape().trim(),
-  body('date').isLength({ max: 50 }).escape().trim(),
+  body('title').isString().isLength({ max: 300 }).escape().trim()
+    .withMessage('Did not receive a valid title less than 300 characters'),
+  body('content').isString().isLength({ max: 150000 }).isSlug().escape().trim()
+    .withMessage('Did not receive content of string type less than 15000 characters.'),
+  body('date').isDate().escape().trim()
+    .withMessage('Did not receive a valid date'),
   async (request, response) => {
     console.log(JSON.stringify(request.body))
 
