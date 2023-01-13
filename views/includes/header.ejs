@@ -1,50 +1,55 @@
+<!-- credit to the getbootstrap.com tutorial on navbars for teaching me much of this syntax: -->
 <header>
-    <h1>Fake CD Store and Real Audio File Uploader/Player</h1>
-
-    <nav>
-      <a href="/">Home</a>
-        &nbsp;|&nbsp;
-
-      <a href="/about">About</a>
-        &nbsp;|&nbsp;
-
-      <a href="/shop">Shop</a>
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">CD Shop & Audio Uploader/Player</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse text-center" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/shop">Shop</a>
+        </li>
         <% if (req.isAuthenticated()) { %>
-          ,&nbsp;
-          <a href="/shop/new">Add Inventory</a>
-          &nbsp;|&nbsp;
-        <% } else { %>
-          &nbsp;|&nbsp;
+          <li class="nav-item">
+            <a class="nav-link" href="/shop/new">+Article</a>
+          </li>
         <% } %>
-
-      <a href="/news">News</a>
-
+        <li class="nav-item">
+          <a class="nav-link" href="/news">News</a>
+        </li>
+          <% if (req.isAuthenticated()) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/news/new">+News</a> 
+            </li>
+          <% } else { %>
+          <% } %>
+        <li class="nav-item">  
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
         <% if (req.isAuthenticated()) { %>
-          ,&nbsp; 
-          <a href="/news/new">Add News</a> 
-          &nbsp;|&nbsp;
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
         <% } else { %>
-          &nbsp;|&nbsp;
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Admin Login</a>
+          </li>
         <% } %>
-        
-      <a href="/contact">Contact</a>
-        &nbsp;|&nbsp;
-
-      <% if (req.isAuthenticated()) { %>
-        <a href="/logout">Logout</a>
-      <% } else { %>
-        <a href="/login">Admin Login</a>
-      <% } %>
-    </nav>
-    
-
-    <% if (req.isAuthenticated()) { %>
-      <br>
-      <div class="logged-in-message">
-        Welcome, <%= req.user.username %>! (You are logged in.)
-      </div>
-    <% } %>
-
-    <hr>
-  </header>
+      </ul>
+    </div>
+  </nav>
+  <br>
+  <% if (req.isAuthenticated()) { %>        
+    <div class="logged-in-message">
+      Welcome, <%= req.user.username %>! (You are logged in.)
+    </div>
+  <% } %>
+  <br>
+</header>
