@@ -2,25 +2,25 @@ import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
 import shopRoutes from './controllers/shop.js'
-
+import numberOfCDsSold from './config/numberOfCDsSold.js'
 import { PORT } from './config/app.js'
 // export const PORT = process.env.PORT;
 export const MONGODB_URI = process.env.MONGODB_URI;
 import './config/database.js'
 import express from 'express'
 import fileUpload from 'express-fileupload'
-import UserDetails from './models/user.js'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 import { titleCase } from './helpers/title-case.js'
+
+// for passport user creation/login method
+import UserDetails from './models/user.js'
 
 // passportlogin tutorial dependencies:
 import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
 
 export const app = express()
-
-
 
 import cors from 'cors'
 import morgan from 'morgan'
@@ -55,7 +55,7 @@ if (process.env.NODE_ENV !== 'test') {
 
 app.set('view engine', 'ejs')
 
-const numberOfCDsSold = 268
+
 
 // dependencies for Express fileUploader, according to attacomsian tutorial:
 // Using localhost:8081 based on tutorial:
@@ -161,7 +161,7 @@ app.get('/login', (request, response) => {
 app.get('/', (request, response) => {
   const numberOfCDsInStock = 40
   response.render('index', {numberOfCDsInStock: numberOfCDsInStock,
-  numberOfCDsSold: 267,
+  numberOfCDsSold: numberOfCDsSold,
   publicAudioUrl: fileController.publicAudioUrl,
 })
   console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
@@ -190,13 +190,7 @@ app.get('/news/new', (request, response) => {
 
 
 
-app.get('/about', (request, response) => {
-  response.render('about', {numberOfCDsSold: numberOfCDsSold})
-})
 
-app.get('/contact', (request, response) => {
-  response.render('contact')
-})
 
 
 // ======================== posts

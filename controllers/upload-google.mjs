@@ -19,7 +19,7 @@ const fileController = {
             return response.status(400).send({ message: "No file available to upload." })
         }
 
-        // deletes previous files, so that user can only have one uploaded file in the database at a time. must use '%2F' instead of '/' to make it work.
+        // deletes previous files, so that user can only have one uploaded file in the database at a time. must use '%2F' in place of '/' to make it work.
         const deleteableFolderName = 'deleteable'
         const files = await bucket.getFiles()
 
