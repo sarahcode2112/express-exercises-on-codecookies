@@ -48,7 +48,7 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-// to use ejs files for views
+// use ejs files for views
 app.set('view engine', 'ejs')
 
 // dependencies for Express fileUploader, according to attacomsian tutorial:
