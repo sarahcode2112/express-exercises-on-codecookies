@@ -2,6 +2,7 @@ import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
 import shopRoutes from './controllers/shop.js'
+import basicRoutes from './controllers/basic-pages.js'
 import numberOfCDsSold from './config/numberOfCDsSold.js'
 import { PORT } from './config/app.js'
 // export const PORT = process.env.PORT;
@@ -89,6 +90,7 @@ app.use(fileUpload({
 
 
 app.use(shopRoutes)
+app.use(basicRoutes)
 
 // passes request data to all pages, so data can be used when views and templates are rendering pages:
 app.use('/', passReq);
@@ -227,11 +229,6 @@ app.post('/upload', async(request,response) => {
   } catch (err) {
     response.status(500).send(err)
   }
-})
-
-app.post('/contact', (request, response) => {
-  console.log('Contact form submission: ', request.body)
-  response.send('Thank you very much for your message. We will get back to you in the order that messages were received.')
 })
 
 app.post(
