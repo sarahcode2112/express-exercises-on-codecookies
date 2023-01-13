@@ -3,6 +3,7 @@ import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
 import shopRoutes from './controllers/shop.js'
 import basicRoutes from './controllers/basic-pages.js'
+import newsRoutes from './controllers/news.js'
 import numberOfCDsSold from './config/numberOfCDsSold.js'
 import { PORT } from './config/app.js'
 // export const PORT = process.env.PORT;
@@ -12,7 +13,6 @@ import express from 'express'
 import fileUpload from 'express-fileupload'
 import session from 'express-session'
 import bodyParser from 'body-parser'
-import { titleCase } from './helpers/title-case.js'
 
 // for passport user creation/login method
 import UserDetails from './models/user.js'
@@ -30,7 +30,6 @@ import mongoose from 'mongoose'
 import { logger } from './middlewares/logger.js'
 import { readablePrice } from './helpers/readable-price.js'
 import { CD } from './models/cd.js'
-import { NewsItem } from './models/news.js'
 import User from './models/user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
@@ -52,11 +51,7 @@ if (process.env.NODE_ENV !== 'test') {
   })
 }
 
-
-
 app.set('view engine', 'ejs')
-
-
 
 // dependencies for Express fileUploader, according to attacomsian tutorial:
 // Using localhost:8081 based on tutorial:
@@ -88,9 +83,9 @@ app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 }))
 
-
 app.use('/shop', shopRoutes)
 app.use(basicRoutes)
+app.use(newsRoutes)
 
 // passes request data to all pages, so data can be used when views and templates are rendering pages:
 app.use('/', passReq);
@@ -107,10 +102,6 @@ app.use(express.json())
 // these two app.use('/api...) things have to come after all other app.use things. Especially after the express.urlencoded thing
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
-
-
-
-
 
 // credit to fullstackopen tutorial for this:
 const getTokenFrom = request => {
@@ -168,31 +159,6 @@ app.get('/', (request, response) => {
 })
   console.log("app.mjs says publicAudioUrl is " + fileController.publicAudioUrl)
 })
-
-app.get('/news', async (request, response) => {
-  try{
-    const news = await NewsItem.find({}).exec()
-    response.render('news/index', {
-      news: news,
-      titleCase: titleCase
-    })
-  }catch(error) {
-    console.error(error)
-    response.render('news/index', {
-      news: []
-    })
-  }
-})
-
-
-
-app.get('/news/new', (request, response) => {
-  response.render('news/new')
-})
-
-
-
-
 
 
 // ======================== posts
@@ -272,35 +238,6 @@ app.post('/shop/:slug', async (request, response) => {
     console.error(error)
     response.send('Error: The CD could not be edited.')
   }
-})
-
-// the validation error messages don't show up yet in the UI, but they're here as a work-in-progress for a future version of the project:
-app.post(
-  '/news', 
-  body('title').isString().isLength({ max: 300 }).escape().trim()
-    .withMessage('Did not receive a valid title less than 300 characters'),
-  body('content').isString().isLength({ max: 150000 }).isSlug().escape().trim()
-    .withMessage('Did not receive content of string type less than 15000 characters.'),
-  body('date').isDate().escape().trim()
-    .withMessage('Did not receive a valid date'),
-  async (request, response) => {
-    console.log(JSON.stringify(request.body))
-
-    try{
-      validationResult(request).throw()
-
-      const newsItem = new NewsItem({
-        title: request.body.title,
-        content: request.body.content,
-        date: request.body.date
-      })
-      await newsItem.save()
-
-      response.send(`News Item Created. Back to <a href="/news">News page</a>`)
-    }catch (error) {
-      console.error(error)
-      response.send('Error: The news item could not be created. It may be because the inputs did not pass validation, or because the same title already exists.')
-    }
 })
 
 app.post('/add-user', async (request, response) => {
