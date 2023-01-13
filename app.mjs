@@ -85,23 +85,23 @@ app.use('/shop', shopRoutes)
 app.use(basicRoutes)
 app.use(newsRoutes)
 
-// passes request data to all pages, so data can be used when views and templates are rendering pages:
+// pass request data to all pages, so data can be used when views and templates are rendering pages:
 app.use('/', passReq);
 
 app.use(logger)
 
-// sets where hrefs point (to get static assets like css and js files):
+// set where hrefs point (to get static assets, such as css, html, and js files):
 app.use('/assets', express.static('public'))
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // these are for the jwt login method:
-// these two app.use('/api...) things have to come after all other app.use things. Especially after the express.urlencoded thing
+// these two app.use('/api...) things have to come after all other app.use things. Especially after express.urlencoded 
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
-// credit to fullstackopen tutorial for this. This is unused now, but is the next step before making some operations that check if a user is logged-in (with the jwt method), before allowing the operations to happen. I leave it here as a work-in-progress:
+// credit to fullstackopen tutorial for this. This is unused now, but it is the next step before making some operations that check if a user is logged-in (with the jwt method), before allowing the operations to happen. I leave it here as a work-in-progress:
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
 
