@@ -249,12 +249,4 @@ app.post('/add-user', async (request, response) => {
     <br></br> )`)
 })
 
-//seems unecessary:
-app.post('/add-cookies', (request, response) => {
-  console.log("Cookie form submission: ", request.body)
-  response
-    .status(200)
-    .json({"Thank you for your cookie submission. It is copied here": request.body})
-})
-
 
