@@ -1,8 +1,9 @@
 import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
-import 'dotenv/config'
-export const PORT = process.env.PORT;
+
+import { PORT } from './config/app.js'
+// export const PORT = process.env.PORT;
 export const MONGODB_URI = process.env.MONGODB_URI;
 import './config/database.js'
 import express from 'express'
@@ -42,8 +43,8 @@ app.use(session({
 }))
 
 if (process.env.NODE_ENV !== 'test') {
-  app.listen(process.env.PORT, async () => {
-    await console.log(`The server has started running on port ${process.env.PORT}`)
+  app.listen(PORT, async () => {
+    await console.log(`The server has started running on port ${PORT}`)
   })
 }
 
