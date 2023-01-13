@@ -98,7 +98,7 @@ app.use(express.json())
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
-// credit to fullstackopen tutorial for this:
+// credit to fullstackopen tutorial for this. This is unused now, but is the next step before making some operations that check if a user is logged-in (with the jwt method), before allowing the operations to happen. I leave it here as a work-in-progress:
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
 
