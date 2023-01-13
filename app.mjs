@@ -1,6 +1,7 @@
 import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import { body, validationResult } from 'express-validator'
+import shopRoutes from './controllers/shop.js'
 
 import { PORT } from './config/app.js'
 // export const PORT = process.env.PORT;
@@ -18,6 +19,8 @@ import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
 
 export const app = express()
+
+
 
 import cors from 'cors'
 import morgan from 'morgan'
@@ -84,6 +87,9 @@ app.use(fileUpload({
   limits: { fileSize: 5 * 1024 * 1024 * 1024 }
 }))
 
+
+app.use(shopRoutes)
+
 // passes request data to all pages, so data can be used when views and templates are rendering pages:
 app.use('/', passReq);
 
@@ -99,6 +105,10 @@ app.use(express.json())
 // these two app.use('/api...) things have to come after all other app.use things. Especially after the express.urlencoded thing
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+
+
+
+
 
 // credit to fullstackopen tutorial for this:
 const getTokenFrom = request => {
@@ -172,70 +182,13 @@ app.get('/news', async (request, response) => {
   }
 })
 
-app.get('/shop', async (request,response) => {
-  try{
-    const cDs = await CD.find({}).exec()
-    response.render('shop/index', { 
-      cDs: cDs,
-      readablePrice: readablePrice
-    })
-  }catch(error) {
-    console.error(error)
-    response.render('shop/index', {
-      cDs: [],
-      readablePrice: readablePrice
-    })
-  }
-})
 
-app.get('/shop/new', (request, response) => {
-  response.render('shop/new')
-})
 
 app.get('/news/new', (request, response) => {
   response.render('news/new')
 })
 
-app.get('/shop/:slug', async (request, response) => {
-  try {
-    const slug = request.params.slug
-    const cD = await CD.findOne({ slug: slug }).exec()
-    if(!cD) throw new Error('CD not found')
 
-    response.render('shop/show', {
-      cD: cD,
-      readablePrice: readablePrice
-    })
-
-  } catch(error) {
-    console.error(error)
-    response.status(404).send('We could not find the CD you\'re seeking.')
-  }
-})
-
-app.get('/shop/:slug/edit', async (request, response) => {
-  try {
-    const slug = request.params.slug
-    const cD = await CD.findOne({ slug: slug }).exec()
-    if(!cD) throw new Error('CD not found')
-
-    response.render('shop/edit', { cD: cD })
-  }catch(error) {
-    console.error(error)
-    response.status(404).send('We could not find the CD you\'re seeking.')
-  }
-})
-
-app.get('/shop/:slug/delete', async (request, response) => {
-  try {
-    await CD.findOneAndDelete({ slug: request.params.slug })
-    
-    response.redirect('/shop')
-  }catch (error) {
-    console.error(error)
-    response.send('Error: No CD was deleted. It may be because the slug did not match a CD in our database.')
-  }
-})
 
 app.get('/about', (request, response) => {
   response.render('about', {numberOfCDsSold: numberOfCDsSold})
