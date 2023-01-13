@@ -1,6 +1,5 @@
 import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
-import { body, validationResult } from 'express-validator'
 import shopRoutes from './controllers/shop.js'
 import basicRoutes from './controllers/basic-pages.js'
 import newsRoutes from './controllers/news.js'
@@ -25,11 +24,7 @@ export const app = express()
 
 import cors from 'cors'
 import morgan from 'morgan'
-import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose'
 import { logger } from './middlewares/logger.js'
-import { readablePrice } from './helpers/readable-price.js'
-import { CD } from './models/cd.js'
 import User from './models/user.js'
 // this line above used to be what is below: 
 // import { User } from './models/user.js'
@@ -115,12 +110,7 @@ const getTokenFrom = request => {
   return null
 }
 
-
 // ======================== gets
-
-app.get('/react', async (request, response) => {
-  response.render('react')
-})
 
 app.get('/dashboard', connectEnsureLogin.ensureLoggedIn(), (request, response) => {
   response.send(`this page is only visible to logged-in users. Your session ID is ${request.sessionID} and your session expires in ${request.session.cookie.maxAge} 
