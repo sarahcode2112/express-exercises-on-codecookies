@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { passReq } from '../middlewares/pass-req.js'
+import { body, validationResult } from 'express-validator'
 import { CD } from '../models/cd.js'
 import { readablePrice } from '../helpers/readable-price.js'
 
@@ -72,6 +73,49 @@ router.get('/:slug/delete', async (request, response) => {
         console.error(error)
         response.send('Error: No CD was deleted. It may be because the slug did not match a CD in our database.')
     }
+})
+
+router.post(
+  '/', 
+  body('name').isString().isLength({ max: 150 }).escape().trim(),
+  body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
+  body('priceInCents').isInt(),
+  async (request, response) => {
+    console.log(JSON.stringify(request.body))
+
+    try{
+      validationResult(request).throw()
+
+      console.log(request.body.description)
+      
+      const cD = new CD({
+        slug: request.body.slug,
+        name: request.body.name,
+        description: request.body.description,
+        priceInCents: request.body.priceInCents
+      })
+      await cD.save()
+
+      response.send(`CD Created. You can view <a href="/shop/${request.body.slug}"> its new webpage </a>.`)
+    }catch (error) {
+      console.error(error)
+      response.send('Error: Unable to create your CD. (It may be because the inputs did not pass validation.)')
+    }
+})
+
+router.post('/:slug', async (request, response) => {
+  try {
+    const cD = await CD.findOneAndUpdate(
+      { slug: request.params.slug }, 
+      request.body,
+      { new: true }
+    )
+    
+    response.redirect(`/shop/${cD.slug}`)
+  }catch (error) {
+    console.error(error)
+    response.send('Error: The CD could not be edited.')
+  }
 })
 
 export default router

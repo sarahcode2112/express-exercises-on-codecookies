@@ -197,49 +197,6 @@ app.post('/upload', async(request,response) => {
   }
 })
 
-app.post(
-  '/shop', 
-  body('name').isString().isLength({ max: 150 }).escape().trim(),
-  body('slug').isString().isLength({ max: 150 }).isSlug().escape().trim(),
-  body('priceInCents').isInt(),
-  async (request, response) => {
-    console.log(JSON.stringify(request.body))
-
-    try{
-      validationResult(request).throw()
-
-      console.log(request.body.description)
-      
-      const cD = new CD({
-        slug: request.body.slug,
-        name: request.body.name,
-        description: request.body.description,
-        priceInCents: request.body.priceInCents
-      })
-      await cD.save()
-
-      response.send(`CD Created. You can view <a href="/shop/${request.body.slug}"> its new webpage </a>.`)
-    }catch (error) {
-      console.error(error)
-      response.send('Error: Unable to create your CD. (It may be because the inputs did not pass validation.)')
-    }
-})
-
-app.post('/shop/:slug', async (request, response) => {
-  try {
-    const cD = await CD.findOneAndUpdate(
-      { slug: request.params.slug }, 
-      request.body,
-      { new: true }
-    )
-    
-    response.redirect(`/shop/${cD.slug}`)
-  }catch (error) {
-    console.error(error)
-    response.send('Error: The CD could not be edited.')
-  }
-})
-
 app.post('/add-user', async (request, response) => {
   UserDetails.register({
     username: request.body.username, active: false }, request.body.password);
