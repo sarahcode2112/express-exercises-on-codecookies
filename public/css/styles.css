@@ -1,5 +1,6 @@
 nav {
-    justify-content: center;
+    position: relative;
+    /* justify-content: center;
     margin: 0 auto;
     display: flex;
     width: fit-content;
@@ -8,7 +9,7 @@ nav {
     font-family: Arial, Helvetica, sans-serif;
     background-color: rgb(120, 154, 235);
     white-space: nowrap;
-    flex-wrap: wrap;
+    flex-wrap: wrap; */
     /* this below is what would make weird amounts of spaces appear between words */
     /* justify-content: space-between; */
 }
@@ -18,8 +19,17 @@ nav {
     flex: 1;
 } */
 
+main {
+    max-width: 800px;
+    margin: auto;
+}
+
 body {
-    background-color: rgb(154, 154, 235)
+    margin: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: rgb(154, 154, 235);
+    font-family: Arial, Helvetica, sans-serif
 }
 
 h1 {
@@ -31,10 +41,6 @@ h1 {
 
 hr {
     border: 0.5px solid black
-}
-
-body {
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 #footer {
