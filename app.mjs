@@ -89,7 +89,7 @@ app.use(fileUpload({
 }))
 
 
-app.use(shopRoutes)
+app.use('/shop', shopRoutes)
 app.use(basicRoutes)
 
 // passes request data to all pages, so data can be used when views and templates are rendering pages:
