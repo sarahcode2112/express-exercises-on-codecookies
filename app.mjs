@@ -5,7 +5,6 @@ import basicRoutes from './controllers/basic-pages.js'
 import newsRoutes from './controllers/news.js'
 import numberOfCDsSold from './config/numberOfCDsSold.js'
 import { PORT } from './config/app.js'
-// export const PORT = process.env.PORT;
 export const MONGODB_URI = process.env.MONGODB_URI;
 import './config/database.js'
 import express from 'express'
@@ -13,10 +12,13 @@ import fileUpload from 'express-fileupload'
 import session from 'express-session'
 import bodyParser from 'body-parser'
 
+// I recognize there are two names for the same import below, here. With more time, I would research and fix that to make it cleaner.
 // for passport user creation/login method
 import UserDetails from './models/user.js'
+// for passport-based user creation:
+import User from './models/user.js'
 
-// passportlogin tutorial dependencies:
+// passport login dependencies:
 import passport from 'passport'
 import connectEnsureLogin from 'connect-ensure-login'
 
@@ -25,12 +27,11 @@ export const app = express()
 import cors from 'cors'
 import morgan from 'morgan'
 import { logger } from './middlewares/logger.js'
-import User from './models/user.js'
-// this line above used to be what is below: 
-// import { User } from './models/user.js'
+
+// for jwt-based user creation and login Credit to the FullStackOpen tutorial:
 import { loginRouter } from './controllers/jwt-login.js'
-// defines a router for dealing with users. Thanks to the FullStackOpen tutorial
 import { usersRouter } from './controllers/new-user.js'
+
 import { fileController } from './controllers/upload-google.mjs'
 
 app.use(session({
@@ -40,12 +41,14 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 1000 } // 1 hour
 }))
 
+// for testing
 if (process.env.NODE_ENV !== 'test') {
   app.listen(PORT, async () => {
     await console.log(`The server has started running on port ${PORT}`)
   })
 }
 
+// to use ejs files for views
 app.set('view engine', 'ejs')
 
 // dependencies for Express fileUploader, according to attacomsian tutorial:
