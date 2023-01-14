@@ -47,16 +47,21 @@ Thank you to these tutorials, which helped me make this project. (I also credit 
     Tutorials that helped me for Express file upload:
 Thank you to these tutorials, which helped me make this project. (I also credit more tutorials, as comments, inside specific project files):
 
-    Main tutorial that helped to build the site:
+    Main tutorial that helped me learn how to build the site:
 
         https://codecookies.xyz/express-tutorial/v1
 
-    Tutorials that helped me for Express file upload:
+    Tutorials for Express file upload:
 
         https://attacomsian.com/blog/uploading-files-nodejs-express
 
         https://www.npmjs.com/package/express-fileupload
 
-    Tutorial helped me for google cloud storage setup:
+    Tutorial for google cloud storage setup:
 
         https://www.bezkoder.com/google-cloud-storage-free/#Create_Google_Cloud_Storage_Bucket
+        
+    FullStackOpen tutorials about jwt-based login and user creation:
+    
+        https://fullstackopen.com/en/part4/user_administration
+        https://fullstackopen.com/en/part4/token_authentication
