@@ -33,9 +33,10 @@ Notes on database and file storage:
     The way the Google Cloud upload is built, right now: there would be a problem if more than one person were using that feature at the same time. The code only allows the one most recent file upload to sit in the Google Cloud bucket and then be streamed (it deletes all files but the most recent one uploaded file). I would improve that in future versions of this project (perhaps by linking file uploads to unique user IDs or session IDs), but this works as a prototype for now.
 
 Note on deployment:
-
     The site is deployed through Google Cloud, which also is tied to my Code University email account. Same as above, I would share access to this workspace with others for collaboration purposes in the future.
 
+Testing:
+    Testing is not yet implemented, although I made some attempts with Jest, and so the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
 
 
 
@@ -50,16 +51,21 @@ Thank you to these tutorials, which helped me make this project. (I also credit 
     Tutorials that helped me for Express file upload:
 Thank you to these tutorials, which helped me make this project. (I also credit more tutorials, as comments, inside specific project files):
 
-    Main tutorial that helped to build the site:
+    Main tutorial that helped me learn how to build the site:
 
         https://codecookies.xyz/express-tutorial/v1
 
-    Tutorials that helped me for Express file upload:
+    Tutorials for Express file upload:
 
         https://attacomsian.com/blog/uploading-files-nodejs-express
 
         https://www.npmjs.com/package/express-fileupload
 
-    Tutorial helped me for google cloud storage setup:
+    Tutorial for google cloud storage setup:
 
         https://www.bezkoder.com/google-cloud-storage-free/#Create_Google_Cloud_Storage_Bucket
+        
+    FullStackOpen tutorials about jwt-based login and user creation:
+    
+        https://fullstackopen.com/en/part4/user_administration
+        https://fullstackopen.com/en/part4/token_authentication
