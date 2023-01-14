@@ -25,9 +25,12 @@ To login in the website:
     A username of 'name1' and a password of 'pass1' will work to login on the website as an 'admin', on both the dev and deployed version of the website. Logging in is necessary in order to see multiple parts of the site, which are only visible to logged-in 'admin' users. Once logged in, you can create more user accounts through the UI. (All users acounts are 'admin', according to the UI; the 'admin' label is only a stylistic term on the frontend which has no real meaning in the backend.)
     The login system uses the 'passport' library. 
     I also got halfway through building a separate login system with json web tokens instead of passport. The code for the latter is still in the codebase, and it works with manually-sent requests (e.g. with Postman) but it is not supported in the UI yet.
+    There is an 'add-user-data.js' file in the root of the project directory, which also works to create a new user.
 
 Notes on database and file storage: 
     The website uses MongoDB to manage its database, and Google Cloud Storage to store audio file uploads. Right now, I access and fund both of those through my Code University email account. For collaboration, I can share access to both of those workspaces with others by request. This would be important so that others can view the online console in Google Cloud, and to be able to generally troubleshoot and work in both platforms.
+    In a locally hosted development environment, it is also possible to 'upload' a file to the local destination of the '/uploads' folder. 
+    The way the Google Cloud upload is built, right now: there would be a problem if more than one person were using that feature at the same time. The code only allows the one most recent file upload to sit in the Google Cloud bucket and then be streamed (it deletes all files but the most recent one uploaded file). I would improve that in future versions of this project (perhaps by linking file uploads to unique user IDs or session IDs), but this works as a prototype for now.
 
 Note on deployment:
 
