@@ -30,9 +30,10 @@ Notes on database and file storage:
     The website uses MongoDB to manage its database, and Google Cloud Storage to store audio file uploads. Right now, I access and fund both of those through my Code University email account. For collaboration, I can share access to both of those workspaces with others by request. This would be important so that others can view the online console in Google Cloud, and to be able to generally troubleshoot and work in both platforms.
 
 Note on deployment:
-
     The site is deployed through Google Cloud, which also is tied to my Code University email account. Same as above, I would share access to this workspace with others for collaboration purposes in the future.
 
+Testing:
+    Testing is not yet implemented, although I made some attempts with Jest, and so the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
 
 
 
