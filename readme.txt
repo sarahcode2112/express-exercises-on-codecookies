@@ -31,6 +31,7 @@ Notes on database and file storage:
     The website uses MongoDB to manage its database, and Google Cloud Storage to store audio file uploads. Right now, I access and fund both of those through my Code University email account. For collaboration, I can share access to both of those workspaces with others by request. This would be important so that others can view the online console in Google Cloud, and to be able to generally troubleshoot and work in both platforms.
     In a locally hosted development environment, it is also possible to 'upload' a file to the local destination of the '/uploads' folder. 
     The way the Google Cloud upload is built, right now: there would be a problem if more than one person were using that feature at the same time. The code only allows the one most recent file upload to sit in the Google Cloud bucket and then be streamed (it deletes all files but the most recent one uploaded file). I would improve that in future versions of this project (perhaps by linking file uploads to unique user IDs or session IDs), but this works as a prototype for now.
+    Note that the 'contact' form does not actually send data to a destination (database or email) yet, but that would be a desirable feature to implement in the future.
 
 Note on deployment:
     The site is deployed through Google Cloud, which also is tied to my Code University email account. Same as above, I would share access to this workspace with others for collaboration purposes in the future.
