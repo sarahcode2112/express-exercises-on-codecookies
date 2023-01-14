@@ -35,7 +35,7 @@ import { usersRouter } from './controllers/new-user.js'
 
 import { fileController } from './controllers/upload-google.mjs'
 
-mongoose.set('bufferCommands', false)
+// mongoose.set('bufferCommands', false)
 
 app.use(session({
   secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
