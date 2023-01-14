@@ -44,20 +44,42 @@
         </section>
         <% } %>
         <section>
-            <h2>Audio Upload/Player Options</h2>
+            <h2>Music practice self-recording tools</h2>
+            <h4>Instructions:</h4>
+            <ol>
+                <li>Record an .mp3 audio sample of yourself practicing. (Using a metronome at the same time is optional.)</li>
+                <li>Upload the sample in the "Upload audio to Google Cloud" form below.</li>
+                <li>New buttons will appear. Press the play button to listen back to your recording.</li>
+                <li>Use the speed control buttons to hear yourself slowed-down, for better analysis of your rhythmic precision.</li>
+            </ol>
             <form action="/upload2" method="POST" enctype="multipart/form-data">
-                <h3> Upload audio to Google Cloud:</h3>
+                <h4> Upload audio to Google Cloud:</h4>
                 <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload"/>
                 <button>Upload</button>
             </form>
             <form action="/upload" method="POST" enctype="multipart/form-data">
-                <h3> Upload audio to local storage (only works when locally hosting): </h3>
+                <h4> Upload audio to local storage (only when locally hosting):  </h4>
+                <p>(Playback of local file is not built yet)</p>
                 <input type="file" name="file" placeholder="File to upload"/>
                 <button>Upload</button>
             </form>
             <div id="audio-player">
-                <h3>Play the audio you uploaded to Google Cloud:</h3>
-                <audio controls src="<%= publicAudioUrl %>" type="audio"></audio>
+                <div>
+                    <h4>Play audio you uploaded to Google Cloud:</h4>
+                    <audio id="myAudio" controls width="320" height="176" type="audio/mp3" controls>
+                    <source src="<%= publicAudioUrl %>" alt="The audio you uploaded.">
+                        Unfortunately, your browser cannot play mp3 audio.
+                    </audio>
+                </div>
+                <div>
+                    <button onclick="setFullSpeed()" type="button">Play at full speed</button>
+                    <button onclick="setThreeQuartersSpeed()" type="button">Play at three quarters speed</button>
+                    <button onclick="setHalfSpeed()" type="button">Play at half speed</button>
+                    <button onclick="setQuarterSpeed()" type="button">Play at quarter speed</button><br>
+                </div>
+                <div id="playspeeddisplay">For debugging purposes:
+                    <button onclick="showPlaySpeed()" type="button">View current speed</button>
+                </div>
             </div>
         </section>
     </main>
