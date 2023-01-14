@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { MONGODB_URI } from './app.js'
 
-mongoose.connect(MONGODB_URI, {
+await mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
