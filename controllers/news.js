@@ -7,7 +7,6 @@ import { titleCase } from '../helpers/title-case.js'
 const router = Router()
 router.use('/', passReq);
 
-// to do
 router.get('/news', async (request, response) => {
   try{
     const news = await NewsItem.find({}).exec()
@@ -26,7 +25,6 @@ router.get('/news', async (request, response) => {
 router.get('/news/new', (request, response) => {
   response.render('news/new')
 })
-
 
 // the validation error messages don't show up yet in the UI, but they're here as a work-in-progress for a future version of the project:
 router.post(
