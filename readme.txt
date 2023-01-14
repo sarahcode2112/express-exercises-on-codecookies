@@ -33,6 +33,13 @@ Thank you to these tutorials, which helped me make this project. (I also credit 
         https://codecookies.xyz/express-tutorial/v1
 
     Tutorials that helped me for Express file upload:
+Thank you to these tutorials, which helped me make this project. (I also credit more tutorials, as comments, inside specific project files):
+
+    Main tutorial that helped to build the site:
+
+        https://codecookies.xyz/express-tutorial/v1
+
+    Tutorials that helped me for Express file upload:
 
         https://attacomsian.com/blog/uploading-files-nodejs-express
 
