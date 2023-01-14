@@ -35,6 +35,7 @@ import { usersRouter } from './controllers/new-user.js'
 
 import { fileController } from './controllers/upload-google.mjs'
 
+// an option if mongoose is throwing errors about timing out
 // mongoose.set('bufferCommands', false)
 
 app.use(session({
