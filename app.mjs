@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { initRoutes } from './routes/index.mjs'
 import { passReq } from './middlewares/pass-req.js'
 import shopRoutes from './controllers/shop.js'
@@ -33,6 +34,8 @@ import { loginRouter } from './controllers/jwt-login.js'
 import { usersRouter } from './controllers/new-user.js'
 
 import { fileController } from './controllers/upload-google.mjs'
+
+mongoose.set('bufferCommands', false)
 
 app.use(session({
   secret: 'r8q,+&1LM3)CD*zAGpx1xm{NeQhc;#',
