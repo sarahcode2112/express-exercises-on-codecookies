@@ -7,7 +7,6 @@
 <script>
     window.publicAudioUrl = '<%= publicAudioUrl %>';
 </script>
-
 <script src="/assets/js/show-audio-player-when-audiofile-defined.mjs" type="module" defer 
 ></script>
 
@@ -35,7 +34,6 @@
             <p>
                 These routes work as POST requests (e.g. with Postman), using a jwt-based login system which is a work-in-progress, but they are not yet accessible in the UI: /api/users, /api/login. (Instead of that jwt system, a non-jwt system currently handles user creation and login at these routes: /add-user and /login.) Referencing the source code would be necessary, to know what values to put into these requests.
             </p>
-        <% } %>
             <form action ="/add-user" method="POST">
                 <h3>Create new admin user</h3>
                 <input type="text" name="username" placeholder="username" /><br/>
@@ -44,17 +42,17 @@
             </form>
             <br />
         </section>
-        
+        <% } %>
         <section>
             <h2>Audio Upload/Player Options</h2>
-            <form action="/upload" method="POST" enctype="multipart/form-data">
-                <h3> Upload audio to local storage: </h3>
-                <input type="file" name="file" placeholder="File to upload"/>
-                <button>Upload</button>
-            </form>
             <form action="/upload2" method="POST" enctype="multipart/form-data">
                 <h3> Upload audio to Google Cloud:</h3>
                 <input type="file" name="audiofile.mp3" accept=".mp3" placeholder="Audio file to upload"/>
+                <button>Upload</button>
+            </form>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <h3> Upload audio to local storage (only works when locally hosting): </h3>
+                <input type="file" name="file" placeholder="File to upload"/>
                 <button>Upload</button>
             </form>
             <div id="audio-player">
