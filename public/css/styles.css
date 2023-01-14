@@ -28,11 +28,6 @@ main {
     padding: 0 20px;
 }
 
-main {
-    max-width: 800px;
-    margin: auto;
-}
-
 body {
     margin: auto;
     padding-left: 20px;
@@ -72,6 +67,9 @@ hr {
     display: none
 }
 
+
+/* news: */
+
 .news-article {
     padding: 25px; 
     margin-bottom: 25px;
@@ -84,4 +82,16 @@ hr {
 
 #news-intro-sentence {
     margin:  30px 15px
+}
+
+
+/* contact form: */
+
+.form-group {
+    padding-bottom: 8px;
+}
+
+.form-group label {
+    font-size: larger;
+    padding-bottom: 4px;
 }
