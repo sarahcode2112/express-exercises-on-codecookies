@@ -49,12 +49,16 @@ Thank you to these tutorials, which helped me make this project. (I also credit 
 
         https://codecookies.xyz/express-tutorial/v1
 
-    Tutorials that helped me for Express file upload:
+    
 Thank you to these tutorials, which helped me make this project. (I also credit more tutorials, as comments, inside specific project files):
 
     Main tutorial that helped me learn how to build the site:
 
         https://codecookies.xyz/express-tutorial/v1
+        
+    Passport authentication tutorial:
+        
+        https://heynode.com/tutorial/authenticate-users-node-expressjs-and-passportjs/
 
     Tutorials for Express file upload:
 
