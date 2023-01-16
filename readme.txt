@@ -37,7 +37,8 @@ Note on deployment:
     The site is deployed through Google Cloud, which also is tied to my Code University email account. Same as above, I would share access to this workspace with others for collaboration purposes in the future.
 
 Testing:
-    Testing is not yet implemented, although I made some attempts with Jest, and so the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
+    Automated testing is not yet implemented, although I made some attempts with Jest, which is why the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
+    For now, testing must be done manually by starting the website and trying out the desired functionality.
 
 
 
