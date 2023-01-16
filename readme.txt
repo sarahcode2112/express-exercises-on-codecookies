@@ -5,6 +5,12 @@ Website description:
 
 Folder structure description:
     This project follows a model-view-controller (MVC) folder structure, mostly. Pages' ejs code are in 'views'. Database-related code is in 'models'. Some more complex routes' code is in app.mjs, and in a folder 'routes' - not in the 'controllers' folder. In the future, I would move all routes' code to the 'controllers' folder.
+    
+    
+================================Site architecture diagram:
+
+Available on Google drive at the following URL:
+https://drive.google.com/file/d/1UkpR_gIp4FeNJQozn0GyxAYp2AQNU5AN/view?usp=sharing
 
 
 ================================Setup instructions:
