@@ -5,6 +5,12 @@ Website description:
 
 Folder structure description:
     This project follows a model-view-controller (MVC) folder structure, mostly. Pages' ejs code are in 'views'. Database-related code is in 'models'. Some more complex routes' code is in app.mjs, and in a folder 'routes' - not in the 'controllers' folder. In the future, I would move all routes' code to the 'controllers' folder.
+    
+    
+================================Site architecture diagram:
+
+Available on Google drive at the following URL:
+https://drive.google.com/file/d/1UkpR_gIp4FeNJQozn0GyxAYp2AQNU5AN/view?usp=sharing
 
 
 ================================Setup instructions:
@@ -31,12 +37,14 @@ Notes on database and file storage:
     The website uses MongoDB to manage its database, and Google Cloud Storage to store audio file uploads. Right now, I access and fund both of those through my Code University email account. For collaboration, I can share access to both of those workspaces with others by request. This would be important so that others can view the online console in Google Cloud, and to be able to generally troubleshoot and work in both platforms.
     In a locally hosted development environment, it is also possible to 'upload' a file to the local destination of the '/uploads' folder. 
     The way the Google Cloud upload is built, right now: there would be a problem if more than one person were using that feature at the same time. The code only allows the one most recent file upload to sit in the Google Cloud bucket and then be streamed (it deletes all files but the most recent one uploaded file). I would improve that in future versions of this project (perhaps by linking file uploads to unique user IDs or session IDs), but this works as a prototype for now.
+    Note that the 'contact' form does not actually send data to a destination (database or email) yet, but that would be a desirable feature to implement in the future.
 
 Note on deployment:
     The site is deployed through Google Cloud, which also is tied to my Code University email account. Same as above, I would share access to this workspace with others for collaboration purposes in the future.
 
 Testing:
-    Testing is not yet implemented, although I made some attempts with Jest, and so the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
+    Automated testing is not yet implemented, although I made some attempts with Jest, which is why the codebase includes some Jest setup code. In the future, I would build automatic tests to support development of this project.
+    For now, testing must be done manually by starting the website and trying out the desired functionality.
 
 
 
@@ -48,12 +56,16 @@ Thank you to these tutorials, which helped me make this project. (I also credit 
 
         https://codecookies.xyz/express-tutorial/v1
 
-    Tutorials that helped me for Express file upload:
+    
 Thank you to these tutorials, which helped me make this project. (I also credit more tutorials, as comments, inside specific project files):
 
     Main tutorial that helped me learn how to build the site:
 
         https://codecookies.xyz/express-tutorial/v1
+        
+    Passport authentication tutorial:
+        
+        https://heynode.com/tutorial/authenticate-users-node-expressjs-and-passportjs/
 
     Tutorials for Express file upload:
 
