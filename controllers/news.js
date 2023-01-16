@@ -31,7 +31,7 @@ router.post(
   '/news', 
   body('title').isString().isLength({ max: 300 }).escape().trim()
     .withMessage('Did not receive a valid title less than 300 characters'),
-  body('content').isString().isLength({ max: 150000 }).isSlug().escape().trim()
+  body('content').isString().isLength({ max: 150000 }).escape().trim()
     .withMessage('Did not receive content of string type less than 15000 characters.'),
   body('date').isDate().escape().trim()
     .withMessage('Did not receive a valid date'),
