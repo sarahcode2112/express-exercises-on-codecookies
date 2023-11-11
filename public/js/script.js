@@ -9,6 +9,10 @@ function showPlaySpeed() {
     alert(audio.playbackRate);
 } 
 
+function setFullSpeed() {
+    audio.playbackRate = 1;
+}
+
 function setThreeQuartersSpeed() { 
     audio.playbackRate = 0.75;
 }
