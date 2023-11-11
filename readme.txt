@@ -23,8 +23,9 @@ To setup the development environment of the website:
 
 To start the site locally: 
     run 'npm start' in the terminal. To view the website, go to http://localhost:3000/ in a web browser.
+    to use nodemon, run 'npm run dev' in the terminal.
 
-To deploy the site: 
+To deploy the site on Google Cloud: 
     run 'gcloud app deploy' in the terminal. To view the website, go to https://id2112.ey.r.appspot.com in a web browser.
 
 To login in the website:
